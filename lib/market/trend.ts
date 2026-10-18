@@ -4,7 +4,10 @@
  * a later step, so it lives here rather than inside one feature.
  */
 
-export const TREND_CLAMP_PCT = 20;
+import { SELL_WINDOW } from "@/lib/config";
+
+/** The clamp lives with the other tunable defaults (lib/config.ts). */
+export const TREND_CLAMP_PCT = SELL_WINDOW.trendClampPct;
 /** Below this the trend is treated as flat, not as a real move. */
 export const FLAT_EPSILON_PCT = 0.5;
 

@@ -35,6 +35,19 @@ export const MARKET = {
   liveTimeoutMs: 5000,
 } as const;
 
+/**
+ * Sell-now-or-hold logic (docs/01-agriprice.md, "Logic").
+ * Sample numbers — an expert must review them before any real use.
+ */
+export const SELL_WINDOW = {
+  /** Wait only if one week of holding would gain at least this much. */
+  minGainPct: 2,
+  /** The weekly trend is clamped to +/- this percent, so one wild week cannot decide alone. */
+  trendClampPct: 20,
+  /** Fewer than this many daily prices and there is nothing to decide with. */
+  minPrices: 7,
+} as const;
+
 /** Default farm coordinates: Port Harcourt (docs/00-global.md §3). */
 export const DEFAULT_FARM = {
   lat: 4.8156,
