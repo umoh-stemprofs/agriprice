@@ -1,0 +1,133 @@
+// AgriPrice schema — shared "Agro base" models (docs/00-global.md §3)
+// plus AgriPrice's own CostSetting (docs/01-agriprice.md).
+//
+// Conventions:
+// - Money is integer kobo (₦1 = 100 kobo). Never floats.
+// - Dates that mean a calendar day use @db.Date; timestamps use timestamptz.
+// - Range rules that must always hold are CHECK constraints in the migration,
+//   so a bad row cannot be written even by a script or by hand.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The market catalog crops (docs/00-global.md §3).
+enum Crop {
+  MAIZE
+  CASSAVA
+  YAM
+  RICE_PADDY
+  TOMATO
+  TILAPIA
+  CATFISH
+  EGGS_TRAY
+  PALM_OIL
+}
+
+/// Price unit for a crop. Eggs are priced per tray of 30, palm oil per litre.
+enum Unit {
+  KG
+  TRAY
+  LITRE
+}
+
+/// Where a price or weather reading came from. Shown as a badge in the UI.
+enum PriceSource {
+  SIMULATED
+  LIVE
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  passHash  String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  farms Farm[]
+
+  @@map("users")
+}
+
+model Farm {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  lat       Float
+  lon       Float
+  currency  String   @default("NGN")
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inventory     InventoryItem[]
+  costSettings  CostSetting[]
+  weather       WeatherSnapshot[]
+
+  @@index([userId])
+  @@map("farms")
+}
+
+/// One generated (or fetched) price for one crop on one calendar day.
+/// unique(crop, date) makes the generator safe to re-run for the same day.
+model PriceTick {
+  id        String      @id @default(cuid())
+  crop      Crop
+  date      DateTime    @db.Date
+  priceKobo Int
+  unit      Unit
+  source    PriceSource @default(SIMULATED)
+  createdAt DateTime    @default(now()) @db.Timestamptz(3)
+
+  @@unique([crop, date])
+  @@map("price_ticks")
+}
+
+/// Cached weather response, so a failed API call can still show "Saved data".
+model WeatherSnapshot {
+  id        String   @id @default(cuid())
+  farmId    String
+  fetchedAt DateTime @default(now()) @db.Timestamptz(3)
+  source    String
+  payload   Json
+
+  farm Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+
+  @@index([farmId, fetchedAt])
+  @@map("weather_snapshots")
+}
+
+/// Stock a farm currently holds. qtyKg > 0 is enforced by a CHECK constraint.
+model InventoryItem {
+  id        String   @id @default(cuid())
+  farmId    String
+  crop      Crop
+  qtyKg     Int
+  note      String?
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  farm Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+
+  @@index([farmId])
+  @@map("inventory_items")
+}
+
+/// AgriPrice feature (01-agriprice.md): the cost of waiting, per crop.
+/// All values are per week. Percentages are 0–100, enforced by CHECK.
+model CostSetting {
+  id                      String @id @default(cuid())
+  farmId                  String
+  crop                    Crop
+  storageKoboPerKgPerWeek Int    @default(0)
+  spoilagePctPerWeek      Float  @default(0)
+  minGainPct              Float  @default(2)
+
+  farm Farm @relation(fields: [farmId], references: [id], onDelete: Cascade)
+
+  @@unique([farmId, crop])
+  @@map("cost_settings")
+}
