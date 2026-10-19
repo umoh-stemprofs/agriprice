@@ -2,7 +2,11 @@
 
 Every external call AgriPrice makes, its URL pattern, key name and a sample
 response. Nothing here is called from the browser: weather and market calls
-run on the server only.
+run on the server only. Verified against the code on 2026-10-19.
+
+Badges shown next to these sources: **Live** (green dot) for a working
+external fetch · **Saved data** (amber clock) for the stored weather snapshot
+after a failed call · **Simulated** (blue flask) for the generated price feed.
 
 ## 1. Weather — Open-Meteo (default, no key)
 
@@ -87,6 +91,8 @@ No real feed is wired today — see `docs/real-price-sources.md`.
 ### GET /api/market/prices
 
 Latest price of every crop, from the provider above (simulated by default).
+Plain array, `cache-control: no-store`. No session is required — these are
+data feeds with no per-user information (middleware skips `/api`).
 
 ```json
 [{ "crop": "MAIZE", "date": "2026-10-18", "priceKobo": 61500,
@@ -118,7 +124,12 @@ unavailable and there is no saved snapshot.
             "source": "OPEN_METEO" } }
 ```
 
-Error: `{ "ok": false, "error": "Weather is unavailable right now. ..." }`
+Error (503): `{ "ok": false, "error": "Weather is unavailable right now. ..." }`
+
+The endpoint takes no parameters. The weather **pages** always use the
+signed-in farmer's own farm coordinates; this public demo route uses the
+first farm in the database (`firstFarm()` in `lib/weather/provider.ts`) or,
+when there is none, the default Port Harcourt coordinates.
 
 ## 5. Caching
 

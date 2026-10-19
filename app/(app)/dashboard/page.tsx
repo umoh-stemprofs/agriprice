@@ -11,13 +11,14 @@ import { StatusPill } from "@/components/StatusPill";
 import { WeatherCard } from "@/components/WeatherCard";
 import { requireUser } from "@/lib/auth/guard";
 import { DEFAULT_FARM, MARKET } from "@/lib/config";
-import { db } from "@/lib/db";
+import { db, withDbRetry } from "@/lib/db";
 import { formatDayLong, todayInTz } from "@/lib/market/dates";
 import { catalogFor, type CatalogEntry } from "@/lib/market/catalog";
 import type { MarketTick } from "@/lib/market/generator";
 import { marketProvider } from "@/lib/market/provider";
 import { sellWindow, type SellWindowResult } from "@/lib/sellWindow";
 import { harvestAlert } from "@/lib/weather/alerts";
+import { buildTodayAlerts } from "@/lib/alerts/today";
 import { valueByCrop } from "@/lib/charts/series";
 import { formatKg, formatNaira } from "@/lib/format";
 import { getWeather } from "@/lib/weather/provider";
@@ -69,14 +70,18 @@ export default async function DashboardPage() {
   let farm: FarmForDashboard | null = null;
   let farmUnavailable = false;
   try {
-    farm = await db.farm.findFirst({
-      where: { userId: user.id },
-      orderBy: { createdAt: "asc" },
-      include: {
-        inventory: { orderBy: { crop: "asc" } },
-        costSettings: true,
-      },
-    });
+    // withDbRetry: a transient pool timeout is retried once before the page
+    // falls back to the "stock unavailable" notice (lib/db.ts).
+    farm = await withDbRetry(() =>
+      db.farm.findFirst({
+        where: { userId: user.id },
+        orderBy: { createdAt: "asc" },
+        include: {
+          inventory: { orderBy: { crop: "asc" } },
+          costSettings: true,
+        },
+      }),
+    );
   } catch (error) {
     // A slow database loses the stock section, never the weather (step 4A).
     farmUnavailable = true;
@@ -84,11 +89,19 @@ export default async function DashboardPage() {
   }
 
   const provider = marketProvider();
-  const [market, weather] = await Promise.all([
+  const inventory = farm?.inventory ?? [];
+  // Everything that does not depend on the others starts at the same time:
+  // latest prices, the weather, and one history per crop in stock.
+  const [market, weather, histories] = await Promise.all([
     provider.latestPrices(today).catch(() => null),
     getWeather(farm?.lat ?? DEFAULT_FARM.lat, farm?.lon ?? DEFAULT_FARM.lon, {
       farmId: farm?.id ?? null,
     }),
+    Promise.all(
+      inventory.map((item) =>
+        provider.history(item.crop, today, MARKET.trendDays).catch(() => null),
+      ),
+    ),
   ]);
 
   const priceByCrop = new Map<MarketTick["crop"], MarketTick>(
@@ -98,23 +111,18 @@ export default async function DashboardPage() {
     (farm?.costSettings ?? []).map((cost) => [cost.crop, cost] as const),
   );
 
-  const decisions: Decision[] = await Promise.all(
-    (farm?.inventory ?? []).map(async (item) => {
-      const history = await provider
-        .history(item.crop, today, MARKET.trendDays)
-        .catch(() => null);
-      const prices = history?.ticks.map((tick) => tick.priceKobo) ?? [];
+  const decisions: Decision[] = inventory.map((item, index) => {
+    const prices = histories[index]?.ticks.map((tick) => tick.priceKobo) ?? [];
 
-      return {
-        id: item.id,
-        qtyKg: item.qtyKg,
-        note: item.note,
-        entry: catalogFor(item.crop),
-        tick: priceByCrop.get(item.crop) ?? null,
-        result: sellWindow(prices, item.qtyKg, costByCrop.get(item.crop) ?? null),
-      };
-    }),
-  );
+    return {
+      id: item.id,
+      qtyKg: item.qtyKg,
+      note: item.note,
+      entry: catalogFor(item.crop),
+      tick: priceByCrop.get(item.crop) ?? null,
+      result: sellWindow(prices, item.qtyKg, costByCrop.get(item.crop) ?? null),
+    };
+  });
 
   const totalStockValue = decisions.reduce((sum, d) => sum + d.result.stockValueNowKobo, 0);
   const sellNowCount = decisions.filter((d) => d.result.status === "SELL_NOW").length;
@@ -127,6 +135,17 @@ export default async function DashboardPage() {
         (farm?.inventory ?? []).map((item) => item.crop),
       )
     : null;
+
+  const alertsToday = buildTodayAlerts({
+    crops: decisions.map((decision) => ({
+      crop: decision.entry.crop,
+      status: decision.result.status,
+      message: decision.result.message,
+      costsNotSet: decision.result.costsNotSet,
+    })),
+    harvest: alert,
+    weatherError: weather.ok ? null : weather.error,
+  });
 
   const weatherBadge = weather.ok ? weather.badge : null;
 
@@ -155,6 +174,32 @@ export default async function DashboardPage() {
           Add stock
         </Link>
       </header>
+
+      {alertsToday.length > 0 && (
+        <Link
+          href="/alerts"
+          role="status"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-info/40 bg-info-bg px-4 py-3"
+        >
+          <span className="flex items-center gap-2 font-medium text-info">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
+            {alertsToday.length} alert{alertsToday.length === 1 ? "" : "s"} today
+          </span>
+          <span className="font-medium text-info underline">Open alerts</span>
+        </Link>
+      )}
 
       {alert && weather.ok && <HarvestAlert alert={alert} badge={weather.badge} />}
 

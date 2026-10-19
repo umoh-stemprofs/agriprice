@@ -13,7 +13,7 @@ import { logoutAction } from "@/app/actions/auth";
  *   the top bar on phones so the bottom bar keeps the four daily destinations.
  */
 
-type IconName = "dashboard" | "stock" | "market" | "weather" | "settings" | "logout";
+type IconName = "dashboard" | "stock" | "market" | "weather" | "alerts" | "settings" | "logout";
 
 const PATHS: Record<IconName, ReactNode> = {
   dashboard: (
@@ -39,6 +39,12 @@ const PATHS: Record<IconName, ReactNode> = {
   weather: (
     <>
       <path d="M7 17.5h10a4 4 0 0 0 .4-8 6 6 0 0 0-11.6 1.2A3.4 3.4 0 0 0 7 17.5Z" />
+    </>
+  ),
+  alerts: (
+    <>
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
     </>
   ),
   settings: (
@@ -77,10 +83,15 @@ const NAV: { href: string; label: string; icon: IconName }[] = [
   { href: "/stock", label: "Stock", icon: "stock" },
   { href: "/market", label: "Market", icon: "market" },
   { href: "/weather", label: "Weather", icon: "weather" },
+  { href: "/alerts", label: "Alerts", icon: "alerts" },
   { href: "/settings", label: "Settings", icon: "settings" },
 ];
 
-const PHONE_NAV = NAV.filter((item) => item.href !== "/settings");
+/** The phone bottom bar keeps four daily destinations (docs/design.md §3);
+ *  Alerts and Settings live in the phone top bar instead. */
+const PHONE_NAV = NAV.filter((item) =>
+  ["/dashboard", "/stock", "/market", "/weather"].includes(item.href),
+);
 
 function useIsActive() {
   const pathname = usePathname();
@@ -151,6 +162,14 @@ export function AppShell({
               <p className="truncate text-sm text-muted">{farmName}</p>
             </div>
             <div className="flex items-center gap-1">
+              <Link
+                href="/alerts"
+                aria-current={isActive("/alerts") ? "page" : undefined}
+                className="btn-ghost"
+              >
+                <Icon name="alerts" />
+                <span>Alerts</span>
+              </Link>
               <Link
                 href="/settings"
                 aria-current={isActive("/settings") ? "page" : undefined}

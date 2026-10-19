@@ -48,4 +48,27 @@ describe("salt picker check", () => {
     pickSalts(today, copy);
     expect(copy).toEqual(salts);
   });
+
+  it("pickSalts finds one rising and one falling crop on many different dates", () => {
+    // Step 0: the rule must come from the picker, not from the calendar.
+    // One date per season plus the generator's second day: whatever day the
+    // suite runs, the picker itself can always produce a demo with both
+    // states. (The very first day, 2026-01-01, has a single price and no
+    // trend at all — nothing can be rising or falling yet.)
+    const dates = [
+      "2026-01-02",
+      "2026-02-14",
+      "2026-04-30",
+      "2026-07-01",
+      "2026-09-15",
+      "2026-12-31",
+    ];
+
+    for (const today of dates) {
+      const result = pickSalts(today, salts);
+      expect(result.check.passes, `no salts pass for ${today}`).toBe(true);
+      expect(result.check.rising.length, `nothing rises on ${today}`).toBeGreaterThanOrEqual(1);
+      expect(result.check.falling.length, `nothing falls on ${today}`).toBeGreaterThanOrEqual(1);
+    }
+  }, 60_000);
 });

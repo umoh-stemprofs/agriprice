@@ -63,6 +63,15 @@ body {
   outline-offset: 2px;
 }
 
+/* Keep scrolled-to elements clear of the fixed bars: the sticky top bar
+   (~56 px) and the phone bottom nav (~72 px). Without this, a button or
+   focused input can land underneath the fixed bottom navigation and the tap
+   goes to a nav link instead (found in the click-through). */
+html {
+  scroll-padding-top: 4.5rem;
+  scroll-padding-bottom: 5.5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -106,6 +106,22 @@ the newest records, and decide how the badge should read (these would all be
 
 *This is a source and terms assessment, not legal advice.*
 
+## Why prices stay simulated (the honest paragraph)
+
+Every candidate above is free *to read*, but none is both clearly licensed
+*and* frequent enough for a sell-now-or-hold answer: the openly-licensed feeds
+(FAO, WFP, FEWS NET, World Bank) publish monthly observations, while this app
+makes a decision from a 14-day trend — monthly data cannot say whether this
+week's price is rising, and two sources (NBS, IMF) do not permit the reuse an
+app needs at all. A daily feed with clear terms for Nigerian crop prices does
+not exist for free today, so wiring a monthly dataset would mean showing
+stale numbers as if they were live, which is exactly what the rules' badge
+system is meant to prevent. The app therefore keeps its deterministic
+simulated feed, labels every price card "Simulated", and says so in the
+footer; the `LiveProvider` behind `MARKET_API_URL` will accept a daily feed
+the moment one is reviewed, licensed and connected — until then "Simulated"
+is the honest badge.
+
 ## Pages read
 
 - FAO: https://www.fao.org/prices/en · https://www.fao.org/giews/food-prices/data-partners/en/ · https://fpma.fao.org/giews/fpmat4/#/dashboard/tool/domestic · https://www.fao.org/contact-us/terms/db-terms-of-use/en/ · https://www.fao.org/statistics/events/events-detail/producer-prices.-january-2025-update/en

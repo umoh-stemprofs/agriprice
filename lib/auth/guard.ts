@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
+import { db, withDbRetry } from "@/lib/db";
 import { DEFAULT_FARM, NEW_FARM_NAME } from "@/lib/config";
 import { currentUser, type SessionUser } from "./session";
 
@@ -20,18 +20,24 @@ export async function requireUser(): Promise<SessionUser> {
  * empty page forever.
  */
 export async function requireFarm(userId: string) {
-  const farm = await db.farm.findFirst({
-    where: { userId },
-    orderBy: { createdAt: "asc" },
-  });
+  // withDbRetry: a slow or resetting connection is retried once (lib/db.ts),
+  // so one stalled pool connection cannot 500 a whole page.
+  const farm = await withDbRetry(() =>
+    db.farm.findFirst({
+      where: { userId },
+      orderBy: { createdAt: "asc" },
+    }),
+  );
   if (farm) return farm;
 
-  return db.farm.create({
-    data: {
-      userId,
-      name: NEW_FARM_NAME,
-      lat: DEFAULT_FARM.lat,
-      lon: DEFAULT_FARM.lon,
-    },
-  });
+  return withDbRetry(() =>
+    db.farm.create({
+      data: {
+        userId,
+        name: NEW_FARM_NAME,
+        lat: DEFAULT_FARM.lat,
+        lon: DEFAULT_FARM.lon,
+      },
+    }),
+  );
 }

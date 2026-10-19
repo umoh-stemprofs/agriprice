@@ -6,10 +6,10 @@ waiting, and shows what that choice is worth on the stock the farm owns.
 
 Decision-support tool. You decide.
 
-Status: **step 4B — crop detail, the cost form and the charts.**
-Auth, the dashboard shell, stock, market, weather and settings are in place.
-What is left: the alerts page (8), the full responsive check (9) and the
-report + demo video (10).
+Status: **feature-complete** — auth, the dashboard shell, stock, market,
+weather, settings, crop detail, the cost form, the charts and the alerts page
+are all in place, with the submission docs in `docs/`. What is left: the
+report and the demo video (step 10).
 
 ## Stack
 
@@ -22,12 +22,23 @@ All dates and times use `APP_TZ` (default `Africa/Lagos`).
 ## Setup
 
 ```bash
-npm install
+npm install               # postinstall runs prisma generate
 cp .env.example .env      # then set DATABASE_URL and SESSION_SECRET
 npm run db:migrate        # create the tables
-npm run db:seed           # one farm, three crops of stock, their costs
-npm run dev               # http://localhost:3000
+npm run db:seed           # one farm, four crops of stock, their costs
+npm run dev -- -p 3000    # http://localhost:3000  (always port 3000)
 ```
+
+### Environment variable names (all values live in `.env`, never in git)
+
+| Name | Needed for |
+|---|---|
+| `DATABASE_URL` | the Postgres connection (Neon in deployment) |
+| `SESSION_SECRET` | encrypting the login cookie (32+ characters) |
+| `DEMO_MODE` | `true` shows the demo login button and the demo alert switch |
+| `APP_TZ` | date zone, default `Africa/Lagos` |
+| `OWM_API_KEY` | optional; without it weather uses Open-Meteo (no key) |
+| `MARKET_API_URL` | optional; without it prices use the simulated feed |
 
 `SESSION_SECRET` encrypts the login cookie and must be at least 32 characters.
 Generate one with:
@@ -93,13 +104,14 @@ minimum gain ≥ 0, spoilage 0..100.
 
 ## Seed contents
 
-One demo farm with three crops and their cost of waiting:
+One demo farm with four crops, three of them with a cost of waiting:
 
 | Crop | Stock | Storage | Spoilage | Wait only if gain |
 |---|---|---|---|---|
 | MAIZE | 1,200 kg | ₦2 / kg / week | 1% / week | ≥ 2% |
 | CASSAVA | 600 kg | ₦1 / kg / week | 4% / week | ≥ 2% |
 | TOMATO | 350 kg | ₦3 / kg / week | 12% / week | ≥ 3% |
+| CATFISH | 120 kg | not set | not set | default ≥ 2% |
 
 These numbers are placeholders. An expert must review them before any real use.
 
@@ -134,12 +146,15 @@ These numbers are placeholders. An expert must review them before any real use.
   `/login?next=…` for every page except `/login` and `/signup`. Every server
   action re-checks the session and resolves that farmer's farm; stock reads,
   edits and deletes are filtered by `farm: { userId }`, so another farmer's row
-  is never found (`lib/stock/service.ts`). A farm lookup that fails (slow
-  database) still leaves the weather working on the default coordinates, and
-  skips storing a snapshot.
+  is never found (`lib/stock/service.ts`). A slow or resetting database
+  connection is retried once (`withDbRetry` in `lib/db.ts`), the dashboard
+  still leaves the weather working on the default coordinates, and any page
+  that still fails renders a friendly error card (`app/(app)/error.tsx`) —
+  never a raw error.
 - **Shell:** 240 px sidebar + grid from 1024 px, top bar + links from 640 px,
   top bar + 4-item bottom nav below that (`components/AppShell.tsx`). Nav:
-  Dashboard, Stock, Market, Weather, Settings.
+  Dashboard, Stock, Market, Weather, **Alerts**, Settings (Alerts also sits in
+  the phone top bar; the bottom bar keeps the four daily destinations).
 - **Dashboard:** four stat cards, a "Sell or hold" list per crop (today's price,
   Sell now / Hold pill with icon and word, the one sentence from `sellWindow`,
   the money at stake, `Set costs` when costs are missing), the weather card and
@@ -174,7 +189,33 @@ These numbers are placeholders. An expert must review them before any real use.
   `valueByCrop`) with tests; `lib/costs/service.ts` owns the farm-scoped cost
   reads and writes, also with ownership tests.
 
+## Alerts (final pass)
+
+- **`/alerts`** lists today's alerts, each as one icon, one word, one sentence
+  and one button: the harvest warning (≥ 20 mm rain in 3 days for maize or
+  rice paddy, only when that crop is in stock), every Sell now / Hold /
+  not-enough-history decision for crops the farm holds, one grouped "Costs not
+  set" alert, and "Weather unavailable" when the forecast call fails. Empty
+  state: "No alerts today." The builder is pure (`lib/alerts/today.ts`, tested).
+- The **dashboard** shows the count in a banner linking to /alerts.
+- With `DEMO_MODE=true`, /alerts shows a **"Demo: show harvest alert"** switch;
+  it renders the warning marked "Demo preview" and never touches any data.
+- Speed: every page's independent database and provider calls run inside one
+  `Promise.all` (the dashboard starts prices, weather and all per-crop
+  histories together).
+- Tests never depend on the day they run: a Vitest global setup refreshes
+  `lib/market/salts.json` for today with the same picker logic that runs as
+  `predev` / `prebuild`, and a multi-date test proves the picker finds "one
+  rising, one falling" on many dates.
+
+## Submission docs (`docs/`)
+
+`task-overview.md` (one page + worked example) · `api.md` (every external
+call) · `schema.md` (tables) · `real-price-sources.md` (research + why prices
+stay simulated) · `rules-checklist.md` (00-global §1 proved line by line) ·
+`report-notes.md` (bullets for the 4–8 page report) · `demo-script.md` (5–7
+minute video script) · `DEPLOY.md` (Vercel + Neon checklist).
+
 ## Next steps
 
-8. Alerts page · 9. Responsive check at 390 / 768 / 1440 px · 10. Full
-click-through, report and demo video.
+10. Write the report and record the demo video (`docs/demo-script.md`).

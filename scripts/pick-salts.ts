@@ -3,7 +3,7 @@ import path from "node:path";
 import { Crop } from "@prisma/client";
 import { CATALOG } from "@/lib/market/catalog";
 import { MARKET } from "@/lib/config";
-import { todayInTz } from "@/lib/market/dates";
+import { todayInTz, daysBetween } from "@/lib/market/dates";
 import { historyPrices } from "@/lib/market/generator";
 import { directionOf, weeklyTrendPct, TrendDirection } from "@/lib/market/trend";
 
@@ -43,14 +43,28 @@ const STABLE_EXTRA_DAYS = 3;
 /** Search bound: a salt per candidate index, e.g. maize-0, maize-1, ... */
 const MAX_CANDIDATES = 4000;
 
+/**
+ * A trend is a pure result of (today, crop, salt), and the search asks the
+ * same question thousands of times — once per candidate salt. Remembering
+ * every answer turns an unlucky full sweep (minutes of recomputation) into a
+ * few seconds. Bounded by the number of candidates the search can try.
+ */
+const TREND_CACHE = new Map<string, CropTrend>();
+
 function trendFor(crop: Crop, salt: string, today: string): CropTrend {
+  const key = `${today}|${crop}|${salt}`;
+  const cached = TREND_CACHE.get(key);
+  if (cached) return cached;
+
   const prices = historyPrices(crop, today, MARKET.trendDays, salt);
-  return {
+  const trend: CropTrend = {
     crop,
     salt,
     trendPct: weeklyTrendPct(prices),
     direction: directionOf(prices),
   };
+  TREND_CACHE.set(key, trend);
+  return trend;
 }
 
 /**
@@ -135,6 +149,17 @@ export function pickSalts(today: string, current: SaltMap): PickResult {
 
   if (fallback) {
     return { salts: fallback, changed: true, check: checkSaltsFor(today, fallback) };
+  }
+
+  // Distinguish "no salts can ever work" from "no candidate passed": on the
+  // generator's first day there is a single price, so every crop is flat and
+  // the rule is unreachable until day two.
+  const historyDays = daysBetween(MARKET.startDate, today) + 1;
+  if (historyDays < 2) {
+    throw new Error(
+      `Only ${historyDays} day of price history on ${today} (generator start ${MARKET.startDate}), ` +
+        "so no crop can be rising or falling yet. The one-rising-one-falling rule becomes reachable on day two.",
+    );
   }
 
   throw new Error(

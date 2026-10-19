@@ -12,6 +12,7 @@
     "prebuild": "tsx scripts/pick-salts.ts",
     "build": "next build",
     "pick-salts": "tsx scripts/pick-salts.ts",
+    "postinstall": "prisma generate",
     "test": "vitest run",
     "start": "next start",
     "typecheck": "tsc --noEmit",
