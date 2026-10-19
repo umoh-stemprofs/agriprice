@@ -22,6 +22,41 @@ body {
   color: var(--text);
 }
 
+/* Shared pieces (docs/design.md §2). Plain words, one main action per screen. */
+@layer components {
+  .card {
+    @apply rounded-card border border-border bg-surface p-5 shadow-card;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-muted;
+  }
+
+  .input {
+    @apply mt-1 block min-h-[48px] w-full rounded-input border border-border bg-surface px-3 py-2.5 text-base text-text placeholder:text-muted/70;
+  }
+
+  .btn-primary {
+    @apply inline-flex min-h-[56px] items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 font-medium text-white transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-60 sm:min-h-[48px];
+  }
+
+  .btn-secondary {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 font-medium text-text transition-colors hover:bg-bg disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-ghost {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-3 py-2 font-medium text-muted transition-colors hover:bg-bg hover:text-text;
+  }
+
+  .btn-danger {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-danger px-4 py-2.5 font-medium text-white transition-colors hover:bg-danger/90 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-medium;
+  }
+}
+
 /* Visible focus ring, design.md §5 */
 :focus-visible {
   outline: 2px solid var(--accent);

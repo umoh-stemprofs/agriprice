@@ -48,6 +48,43 @@ export const SELL_WINDOW = {
   minPrices: 7,
 } as const;
 
+/** Login and session rules (docs/00-global.md §3). */
+export const AUTH = {
+  /** iron-session cookie name. */
+  cookieName: "agriprice_session",
+  /** How long a login lasts: 7 days. */
+  maxAgeSeconds: 60 * 60 * 24 * 7,
+  /** bcrypt work factor, fixed by the rules. */
+  bcryptCost: 10,
+  passwordMinLength: 8,
+  nameMaxLength: 80,
+  emailMaxLength: 160,
+} as const;
+
+/**
+ * The seeded demo account, used by the "Try demo account" button.
+ * The password lives in README.md only; the button signs in without it.
+ */
+export const DEMO = {
+  email: "demo@agriprice.test",
+  name: "Ada Okonkwo",
+  farmName: "Port Harcourt farm",
+} as const;
+
+/** True only when DEMO_MODE="true" (checked on the server, never in the browser). */
+export function demoModeEnabled(): boolean {
+  return process.env.DEMO_MODE?.trim().toLowerCase() === "true";
+}
+
+/** A new farm starts at the default coordinates until Settings says otherwise. */
+export const NEW_FARM_NAME = "My farm";
+
+/** Stock rules. qtyKg is a whole number of kg, above 0. */
+export const STOCK = {
+  maxQtyKg: 1_000_000,
+  noteMaxLength: 120,
+} as const;
+
 /** Default farm coordinates: Port Harcourt (docs/00-global.md §3). */
 export const DEFAULT_FARM = {
   lat: 4.8156,

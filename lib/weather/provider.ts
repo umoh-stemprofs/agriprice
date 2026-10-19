@@ -20,6 +20,12 @@ import type { WeatherData, WeatherResult } from "./types";
  */
 
 export interface WeatherDeps {
+  /**
+   * The farm this weather belongs to. When null (the farm lookup failed, for
+   * example because the database is slow) the forecast is still fetched with
+   * the default coordinates, but nothing is read from or written to the cache.
+   */
+  farmId?: string | null;
   /** The provider call (timeout + retry applied around it). */
   fetchWeather?: (lat: number, lon: number) => Promise<WeatherData>;
   /** Latest stored snapshot payload, or null when there is none. */
@@ -29,31 +35,33 @@ export interface WeatherDeps {
   now?: () => Date;
 }
 
-/** Farm location to use: the seeded farm if it has valid coordinates. */
-export async function farmLocation(): Promise<{ lat: number; lon: number }> {
+/**
+ * The first farm, used by the public GET /api/weather demo route so it has a
+ * snapshot to read. Pages always use the signed-in farmer's farm instead.
+ */
+export async function firstFarm(): Promise<{
+  id: string;
+  lat: number;
+  lon: number;
+} | null> {
   try {
     const farm = await db.farm.findFirst({
       orderBy: { createdAt: "asc" },
-      select: { lat: true, lon: true },
-    });
-    if (farm && isValidLat(farm.lat) && isValidLon(farm.lon)) {
-      return { lat: farm.lat, lon: farm.lon };
-    }
-  } catch (error) {
-    console.warn("Could not read farm location:", error instanceof Error ? error.message : error);
-  }
-  return DEFAULT_FARM;
-}
-
-async function defaultLoadSnapshot(): Promise<unknown | null> {
-  try {
-    const farm = await db.farm.findFirst({
-      orderBy: { createdAt: "asc" },
-      select: { id: true },
+      select: { id: true, lat: true, lon: true },
     });
     if (!farm) return null;
+    if (!isValidLat(farm.lat) || !isValidLon(farm.lon)) return null;
+    return farm;
+  } catch (error) {
+    console.warn("Could not read farm location:", error instanceof Error ? error.message : error);
+    return null;
+  }
+}
+
+async function defaultLoadSnapshot(farmId: string): Promise<unknown | null> {
+  try {
     const snapshot = await db.weatherSnapshot.findFirst({
-      where: { farmId: farm.id },
+      where: { farmId },
       orderBy: { fetchedAt: "desc" },
       select: { payload: true },
     });
@@ -65,24 +73,19 @@ async function defaultLoadSnapshot(): Promise<unknown | null> {
 }
 
 /** Keep snapshots bounded: anything older than 3 days is dropped on save. */
-async function defaultSaveSnapshot(data: WeatherData): Promise<void> {
+async function defaultSaveSnapshot(farmId: string, data: WeatherData): Promise<void> {
   try {
-    const farm = await db.farm.findFirst({
-      orderBy: { createdAt: "asc" },
-      select: { id: true },
-    });
-    if (!farm) return;
     const fetchedAt = new Date(data.fetchedAt);
     await db.weatherSnapshot.create({
       data: {
-        farmId: farm.id,
+        farmId,
         fetchedAt,
         source: data.source,
         payload: data as unknown as Prisma.InputJsonValue,
       },
     });
     await db.weatherSnapshot.deleteMany({
-      where: { farmId: farm.id, fetchedAt: { lt: new Date(fetchedAt.getTime() - 3 * 24 * 60 * 60 * 1000) } },
+      where: { farmId, fetchedAt: { lt: new Date(fetchedAt.getTime() - 3 * 24 * 60 * 60 * 1000) } },
     });
   } catch (error) {
     // A cache problem must never take the weather card down.
@@ -128,9 +131,14 @@ export async function getWeather(
   deps: WeatherDeps = {},
 ): Promise<WeatherResult> {
   const now = deps.now ?? (() => new Date());
-  const load = deps.loadSnapshot ?? defaultLoadSnapshot;
-  const save = deps.saveSnapshot ?? defaultSaveSnapshot;
+  const farmId = deps.farmId ?? null;
   const run = deps.fetchWeather ?? callProvider;
+
+  // No farm means no place to keep a snapshot. The forecast below still works.
+  const load =
+    deps.loadSnapshot ?? (farmId ? () => defaultLoadSnapshot(farmId) : async () => null);
+  const save =
+    deps.saveSnapshot ?? (farmId ? (data: WeatherData) => defaultSaveSnapshot(farmId, data) : async () => {});
 
   let stored: unknown = null;
   try {
@@ -147,7 +155,9 @@ export async function getWeather(
 
   try {
     const data = await run(lat, lon);
-    await save(data);
+    if (farmId) {
+      await save(data);
+    }
     return { ok: true, data, badge: "live" };
   } catch (error) {
     console.warn(

@@ -6,8 +6,10 @@ waiting, and shows what that choice is worth on the stock the farm owns.
 
 Decision-support tool. You decide.
 
-Status: **step 2 of 10 — market feed + weather provider.** Schema, seed,
-routes, generator and both weather adapters are in place.
+Status: **step 4A — auth, dashboard shell, stock, market, weather, settings.**
+The sell-or-hold logic (`lib/sellWindow.ts`), the generator and both weather
+adapters are in place. Step 4B adds the crop detail page, the cost form and the
+charts.
 
 ## Stack
 
@@ -21,11 +23,21 @@ All dates and times use `APP_TZ` (default `Africa/Lagos`).
 
 ```bash
 npm install
-cp .env.example .env      # then set DATABASE_URL
+cp .env.example .env      # then set DATABASE_URL and SESSION_SECRET
 npm run db:migrate        # create the tables
 npm run db:seed           # one farm, three crops of stock, their costs
 npm run dev               # http://localhost:3000
 ```
+
+`SESSION_SECRET` encrypts the login cookie and must be at least 32 characters.
+Generate one with:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+`DEMO_MODE="true"` shows the "Try demo account" button on the login page. Set it
+to anything else on a public deployment.
 
 `npm run typecheck` runs TypeScript, `npm test` runs the Vitest suite,
 `npm run db:studio` opens Prisma Studio.
@@ -50,7 +62,9 @@ To reset everything: `npm run db:reset` (drops, re-migrates and re-seeds).
 - Email: `demo@agriprice.test`
 - Password: `demo1234`
 
-Demo credentials live here, never in the app code.
+Demo credentials live here, never in the app code. With `DEMO_MODE="true"` the
+login page also has a "Try demo account" button, which opens the same farm
+without typing the password.
 
 ## Data model (step 1)
 
@@ -101,8 +115,38 @@ These numbers are placeholders. An expert must review them before any real use.
 - **Docs:** `docs/api.md` (every external call), `docs/real-price-sources.md`
   (research on real price sources — nothing wired).
 
+## Login, pages and protection (step 4A)
+
+- **Auth:** `iron-session` cookie (`agriprice_session`, httpOnly, sameSite=lax,
+  `secure` in production) plus `bcryptjs` at cost 10. Signup asks for a name, an
+  email and a password of at least 8 characters; the farm is created in the same
+  write. Login answers a wrong email or password with one sentence and never
+  says which half was wrong. Every form input is parsed with Zod on the server
+  (`lib/auth/validation.ts`).
+- **Protection:** `middleware.ts` redirects signed-out visitors to
+  `/login?next=…` for every page except `/login` and `/signup`. Every server
+  action re-checks the session and resolves that farmer's farm; stock reads,
+  edits and deletes are filtered by `farm: { userId }`, so another farmer's row
+  is never found (`lib/stock/service.ts`). A farm lookup that fails (slow
+  database) still leaves the weather working on the default coordinates, and
+  skips storing a snapshot.
+- **Shell:** 240 px sidebar + grid from 1024 px, top bar + links from 640 px,
+  top bar + 4-item bottom nav below that (`components/AppShell.tsx`). Nav:
+  Dashboard, Stock, Market, Weather, Settings.
+- **Dashboard:** four stat cards, a "Sell or hold" list per crop (today's price,
+  Sell now / Hold pill with icon and word, the one sentence from `sellWindow`,
+  the money at stake, `Set costs` when costs are missing), the weather card and
+  the harvest alert banner — every data card keeps its Live / Saved / Simulated
+  badge. Footer: "Decision-support tool. You decide."
+- **Stock:** estimated market value (kg × latest price, integer kobo) with a
+  total card, a table on desktop and cards on phone, add / edit / delete with a
+  confirm dialog. Adding a crop you already hold tops that row up.
+- **Market / weather / settings:** a price card per crop with the change since
+  yesterday; the 5-day forecast with the harvest alert; farm name, latitude and
+  longitude with a "Use my location" button (lat −90..90, lon −180..180).
+
 ## Next steps
 
-4. `sellWindow.ts` + tests · 5. Inventory + estimated market value ·
-6. Dashboard + charts · 7. Crop detail + costs · 8. Alerts · 9. Responsive check ·
-10. Full click-through.
+4B. Crop detail page + cost form (with a live preview) + Recharts charts ·
+8. Alerts page · 9. Responsive check at 390 / 768 / 1440 px · 10. Full
+click-through, report and demo video.

@@ -89,6 +89,7 @@ describe("getWeather fallback", () => {
     const saveSnapshot = vi.fn(async () => {});
 
     const result = await getWeather(4.8156, 7.0498, {
+      farmId: "farm_test",
       fetchWeather: async () => fresh,
       loadSnapshot: async () => null,
       saveSnapshot,
@@ -100,6 +101,27 @@ describe("getWeather fallback", () => {
     expect(result.badge).toBe("live");
     expect(result.data).toEqual(fresh);
     expect(saveSnapshot).toHaveBeenCalledWith(fresh);
+  });
+
+  it("shows the forecast without storing it when the farm could not be read", async () => {
+    const fresh = makeData("2026-10-18T12:00:00.000Z");
+    const saveSnapshot = vi.fn(async () => {});
+
+    const result = await getWeather(4.8156, 7.0498, {
+      farmId: null,
+      fetchWeather: async () => fresh,
+      loadSnapshot: async () => null,
+      saveSnapshot,
+      now: NOW,
+    });
+
+    // The card still works with the default coordinates...
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.badge).toBe("live");
+    // ...and nothing is written to the cache, because there is no farm to
+    // attach the snapshot to (step 4A).
+    expect(saveSnapshot).not.toHaveBeenCalled();
   });
 
   it("falls back to a stale snapshot when the refetch fails", async () => {
