@@ -2,6 +2,10 @@ import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { HarvestAlert } from "@/components/HarvestAlert";
+import { ChartCard } from "@/components/charts/ChartCard";
+import { ValueBarChart } from "@/components/charts/ValueCharts";
+import { ValuePieChart } from "@/components/charts/ValueCharts";
+import { MoneyLine } from "@/components/MoneyLine";
 import { SourceBadge } from "@/components/SourceBadge";
 import { StatusPill } from "@/components/StatusPill";
 import { WeatherCard } from "@/components/WeatherCard";
@@ -14,6 +18,7 @@ import type { MarketTick } from "@/lib/market/generator";
 import { marketProvider } from "@/lib/market/provider";
 import { sellWindow, type SellWindowResult } from "@/lib/sellWindow";
 import { harvestAlert } from "@/lib/weather/alerts";
+import { valueByCrop } from "@/lib/charts/series";
 import { formatKg, formatNaira } from "@/lib/format";
 import { getWeather } from "@/lib/weather/provider";
 
@@ -55,35 +60,6 @@ function StatCard({
       <p className="mt-1 text-sm text-muted">{hint}</p>
     </div>
   );
-}
-
-function MoneyLine({ result }: { result: SellWindowResult }) {
-  if (result.status === "NEED_DATA") return null;
-
-  if (result.status === "HOLD") {
-    return <p className="font-medium">Could earn {formatNaira(result.changeIfWaitKobo)} more if you wait.</p>;
-  }
-
-  if (result.changeIfWaitKobo < 0) {
-    return (
-      <p className="font-medium">
-        Waiting would lose {formatNaira(Math.abs(result.changeIfWaitKobo))}.
-      </p>
-    );
-  }
-
-  if (result.changeIfWaitKobo > 0) {
-    // The badge says Sell now while waiting still earns a little. Say why, so
-    // the badge and the number never look contradictory (step 4A).
-    return (
-      <p className="text-muted">
-        Waiting would earn about {formatNaira(result.changeIfWaitKobo)}, but less than your minimum
-        gain.
-      </p>
-    );
-  }
-
-  return null;
 }
 
 export default async function DashboardPage() {
@@ -153,6 +129,18 @@ export default async function DashboardPage() {
     : null;
 
   const weatherBadge = weather.ok ? weather.badge : null;
+
+  // Value by crop for the bar chart and the pie (max 5 slices, rest = Other).
+  const valueSlices = valueByCrop(
+    decisions.map((decision) => ({
+      label: decision.entry.label,
+      valueKobo: decision.result.stockValueNowKobo,
+    })),
+  );
+  const valueTable = {
+    headers: ["Crop", "Value"],
+    rows: valueSlices.map((slice) => [slice.label, formatNaira(slice.valueKobo)]),
+  };
 
   return (
     <div className="space-y-6">
@@ -233,7 +221,14 @@ export default async function DashboardPage() {
                 <li key={decision.id} className="border-t border-border py-4 first:border-t-0">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <p className="font-semibold">{decision.entry.label}</p>
+                      <p className="font-semibold">
+                        <Link
+                          href={`/crop/${decision.entry.crop}`}
+                          className="hover:text-accent hover:underline"
+                        >
+                          {decision.entry.label}
+                        </Link>
+                      </p>
                       <p className="text-sm text-muted">
                         {formatKg(decision.qtyKg)} in stock ·{" "}
                         {decision.tick
@@ -245,7 +240,10 @@ export default async function DashboardPage() {
                   </div>
 
                   <p className="mt-2">{decision.result.message}</p>
-                  <MoneyLine result={decision.result} />
+                  <MoneyLine
+                    status={decision.result.status}
+                    changeIfWaitKobo={decision.result.changeIfWaitKobo}
+                  />
 
                   <p className="mt-1 text-sm text-muted">
                     Stock value now: {formatNaira(decision.result.stockValueNowKobo)}
@@ -253,7 +251,10 @@ export default async function DashboardPage() {
 
                   {decision.result.costsNotSet && (
                     <p className="mt-1 text-sm">
-                      <Link href="/costs" className="font-medium text-accent underline">
+                      <Link
+                        href={`/costs?crop=${decision.entry.crop}`}
+                        className="font-medium text-accent underline"
+                      >
                         Set costs
                       </Link>{" "}
                       <span className="text-muted">so holding costs are counted.</span>
@@ -266,6 +267,25 @@ export default async function DashboardPage() {
         </section>
 
         <WeatherCard weather={weather} variant="narrow" />
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <ChartCard
+          title="Stock value by crop"
+          subtitle={`As of ${formatDayLong(today)}`}
+          table={valueTable}
+          emptyMessage="Add stock and its value shows up here."
+        >
+          <ValueBarChart slices={valueSlices} />
+        </ChartCard>
+        <ChartCard
+          title="Share of stock value"
+          subtitle="Up to five slices, the rest grouped as Other"
+          table={valueTable}
+          emptyMessage="Add stock and its share shows up here."
+        >
+          <ValuePieChart slices={valueSlices} />
+        </ChartCard>
       </div>
     </div>
   );

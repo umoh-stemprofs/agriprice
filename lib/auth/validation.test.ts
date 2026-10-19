@@ -1,6 +1,7 @@
 import { Crop } from "@prisma/client";
 import { describe, expect, it } from "vitest";
 import {
+  costSettingsSchema,
   farmSettingsSchema,
   firstIssue,
   loginSchema,
@@ -109,6 +110,81 @@ describe("stock validation", () => {
     expect(parsed.success).toBe(true);
     if (!parsed.success) return;
     expect(parsed.data.note).toBeNull();
+  });
+});
+
+describe("cost settings validation", () => {
+  it("accepts storage in naira, spoilage and minimum gain in percent", () => {
+    const parsed = costSettingsSchema.safeParse({
+      crop: Crop.CATFISH,
+      storageNaira: "2.5",
+      spoilagePctPerWeek: "12",
+      minGainPct: "3",
+    });
+    expect(parsed.success).toBe(true);
+    if (!parsed.success) return;
+    expect(parsed.data.storageNaira).toBe(2.5);
+    expect(parsed.data.spoilagePctPerWeek).toBe(12);
+    expect(parsed.data.minGainPct).toBe(3);
+  });
+
+  it("accepts 0 for every field, because no cost is a valid answer", () => {
+    expect(
+      costSettingsSchema.safeParse({
+        crop: Crop.MAIZE,
+        storageNaira: "0",
+        spoilagePctPerWeek: "0",
+        minGainPct: "0",
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects a storage cost below zero", () => {
+    const parsed = costSettingsSchema.safeParse({
+      crop: Crop.MAIZE,
+      storageNaira: "-1",
+      spoilagePctPerWeek: "1",
+      minGainPct: "2",
+    });
+    expect(parsed.success).toBe(false);
+    if (parsed.success) return;
+    expect(firstIssue(parsed)).toBe("Storage cost cannot be below ₦0.");
+  });
+
+  it("rejects spoilage outside 0 to 100", () => {
+    for (const spoilagePctPerWeek of ["-1", "101", "250"]) {
+      expect(
+        costSettingsSchema.safeParse({
+          crop: Crop.TOMATO,
+          storageNaira: "1",
+          spoilagePctPerWeek,
+          minGainPct: "2",
+        }).success,
+      ).toBe(false);
+    }
+  });
+
+  it("rejects a minimum gain below zero", () => {
+    const parsed = costSettingsSchema.safeParse({
+      crop: Crop.MAIZE,
+      storageNaira: "1",
+      spoilagePctPerWeek: "1",
+      minGainPct: "-0.5",
+    });
+    expect(parsed.success).toBe(false);
+    if (parsed.success) return;
+    expect(firstIssue(parsed)).toBe("Minimum gain cannot be below 0.");
+  });
+
+  it("rejects a crop outside the catalog", () => {
+    expect(
+      costSettingsSchema.safeParse({
+        crop: "BANANA",
+        storageNaira: "1",
+        spoilagePctPerWeek: "1",
+        minGainPct: "2",
+      }).success,
+    ).toBe(false);
   });
 });
 

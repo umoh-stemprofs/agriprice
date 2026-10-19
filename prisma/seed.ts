@@ -4,10 +4,16 @@ import { hash } from "bcryptjs";
 
 /**
  * Seed for step 1: one farmer, one farm, three crops of stock, the cost of
- * waiting for each. No prices and no weather yet — step 2 owns the market feed.
+ * waiting for each. No prices and no weather — step 2 owns the market feed.
  *
  * Idempotent: running it twice leaves the same rows, not duplicates.
  * Demo password is documented in README.md only.
+ *
+ * Step 4B also makes the demo show both sell/hold states on the dashboard:
+ * maize, cassava and tomato carry storage/spoilage costs and do not rise fast
+ * enough, so they read "Sell now", while catfish has no cost row and rises
+ * today (salts are picked by scripts/pick-salts.ts so some crop always rises
+ * and some falls), so it reads "Hold" and offers the "Set costs" link.
  */
 
 const db = new PrismaClient();
@@ -28,6 +34,9 @@ const STOCK: { id: string; crop: Crop; qtyKg: number; note: string }[] = [
   { id: "inv_demo_maize", crop: Crop.MAIZE, qtyKg: 1200, note: "Dried, in bags" },
   { id: "inv_demo_cassava", crop: Crop.CASSAVA, qtyKg: 600, note: "Fresh roots, sell within a week" },
   { id: "inv_demo_tomato", crop: Crop.TOMATO, qtyKg: 350, note: "Crates, harvested two days ago" },
+  // The Hold crop: rising and deliberately without a CostSetting row, so the
+  // dashboard shows the "Hold" pill next to "Set costs".
+  { id: "inv_demo_catfish", crop: Crop.CATFISH, qtyKg: 120, note: "Pond harvest, kept alive" },
 ];
 
 // Placeholder numbers. An expert must review them before any real use.

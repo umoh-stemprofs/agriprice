@@ -68,6 +68,27 @@ export const stockUpdateSchema = z.object({
   note: noteField,
 });
 
+/**
+ * Cost of waiting (docs/01-agriprice.md), entered in naira and percentages.
+ * The server converts naira to integer kobo before saving; nothing in the
+ * database is ever a float of money.
+ */
+export const costSettingsSchema = z.object({
+  crop: cropField,
+  storageNaira: z.coerce
+    .number({ invalid_type_error: "Enter the storage cost per kg per week." })
+    .min(0, "Storage cost cannot be below ₦0.")
+    .max(10_000, "That storage cost is too large."),
+  spoilagePctPerWeek: z.coerce
+    .number({ invalid_type_error: "Enter the spoilage percentage." })
+    .min(0, "Spoilage must be between 0 and 100.")
+    .max(100, "Spoilage must be between 0 and 100."),
+  minGainPct: z.coerce
+    .number({ invalid_type_error: "Enter the minimum gain to wait." })
+    .min(0, "Minimum gain cannot be below 0.")
+    .max(100, "Minimum gain must be between 0 and 100."),
+});
+
 function coordinate(label: string, min: number, max: number) {
   return z.preprocess(
     (value) => (value === "" || value === null || value === undefined ? undefined : Number(value)),
@@ -100,4 +121,5 @@ export type SignupInput = z.infer<typeof signupSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type StockInput = z.infer<typeof stockSchema>;
 export type StockUpdateInput = z.infer<typeof stockUpdateSchema>;
+export type CostSettingsInput = z.infer<typeof costSettingsSchema>;
 export type FarmSettingsInput = z.infer<typeof farmSettingsSchema>;

@@ -6,10 +6,10 @@ waiting, and shows what that choice is worth on the stock the farm owns.
 
 Decision-support tool. You decide.
 
-Status: **step 4A — auth, dashboard shell, stock, market, weather, settings.**
-The sell-or-hold logic (`lib/sellWindow.ts`), the generator and both weather
-adapters are in place. Step 4B adds the crop detail page, the cost form and the
-charts.
+Status: **step 4B — crop detail, the cost form and the charts.**
+Auth, the dashboard shell, stock, market, weather and settings are in place.
+What is left: the alerts page (8), the full responsive check (9) and the
+report + demo video (10).
 
 ## Stack
 
@@ -76,6 +76,13 @@ without typing the password.
 | `CostSetting` | AgriPrice feature: storage ₦/kg/week, spoilage %/week, minimum gain % |
 | `PriceTick` | Daily price per crop, unique per crop+date (step 2 fills it) |
 | `WeatherSnapshot` | Cached weather, so an API failure still shows saved data (step 3) |
+
+Seeded stock: MAIZE 1,200 kg · CASSAVA 600 kg · TOMATO 350 kg · CATFISH 120 kg.
+Catfish is the demo "Hold" crop: it rises today and has **no** cost row, so the
+dashboard shows the Hold pill next to the "Set costs" link; the other three pay
+storage and spoilage and read "Sell now". Re-running `npm run db:seed` on a day
+when the picked salts have catfish falling flips the two states — the salts are
+re-checked by `npm run pick-salts` on every dev/build.
 
 Enums: `Crop` (nine catalog crops), `Unit` (`KG`, `TRAY`, `LITRE`),
 `PriceSource` (`SIMULATED`, `LIVE`).
@@ -145,8 +152,29 @@ These numbers are placeholders. An expert must review them before any real use.
   yesterday; the 5-day forecast with the harvest alert; farm name, latitude and
   longitude with a "Use my location" button (lat −90..90, lon −180..180).
 
+## Crop detail, costs and charts (step 4B)
+
+- **Crop detail** (`/crop/MAIZE`): big status pill, the one sentence, the money
+  line (including the extra "but less than your minimum gain" line), a 30-day
+  line chart with the next week as a dotted line, and three cards — weekly
+  trend, cost of waiting per kg, value of your stock — plus a "Set costs"
+  button. Linked from the dashboard list and the market cards.
+- **Costs** (`/costs?crop=…`): storage per kg per week in naira, spoilage %
+  and minimum gain %, validated on the server (≥ 0, 0–100, ≥ 0) and saved to
+  `CostSetting` for the signed-in farm only. The preview card runs the same
+  `sellWindow` on the same prices while you type and never writes anything —
+  only "Save costs" posts.
+- **Charts (Recharts):** dashboard bar "Stock value by crop" and pie "Share of
+  stock value" (max 5 slices, the tail as "Other"); market line chart per crop
+  with a 7 / 30 / 90-day toggle. Every chart is a card with title, badge,
+  "View as table", an empty state and a loading skeleton, drawn with the
+  color-blind safe palette from design.md §4 (axis text 12 px, light gridlines,
+  ₦ units).
+- **Pure helpers:** `lib/charts/series.ts` (`projectionSeries`,
+  `valueByCrop`) with tests; `lib/costs/service.ts` owns the farm-scoped cost
+  reads and writes, also with ownership tests.
+
 ## Next steps
 
-4B. Crop detail page + cost form (with a live preview) + Recharts charts ·
 8. Alerts page · 9. Responsive check at 390 / 768 / 1440 px · 10. Full
 click-through, report and demo video.

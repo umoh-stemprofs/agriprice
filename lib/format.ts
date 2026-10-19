@@ -7,6 +7,11 @@ export function formatNaira(kobo: number): string {
   return `₦${Math.round(kobo / 100).toLocaleString("en-NG")}`;
 }
 
+/** Form input in naira -> integer kobo for the database (₦1 = 100 kobo). */
+export function nairaToKobo(naira: number): number {
+  return Math.round(naira * 100);
+}
+
 export function formatKg(qtyKg: number): string {
   return `${qtyKg.toLocaleString("en-NG")} kg`;
 }
