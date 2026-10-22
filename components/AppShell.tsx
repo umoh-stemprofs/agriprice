@@ -151,7 +151,7 @@ export function AppShell({
             </div>
 
             {/* Live status */}
-            <div className="flex items-center justify-between gap-2 px-1">
+            <div className="flex items-center gap-2 px-1">
               <span className="chip border-optimal-line bg-optimal-bg font-semibold text-brand">
                 <span className="relative flex h-2 w-2 shrink-0">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-optimal opacity-60" />
@@ -159,7 +159,6 @@ export function AppShell({
                 </span>
                 Live market feed
               </span>
-              <span className="text-code tabular text-ink-muted">{new Date().getFullYear()}</span>
             </div>
           </div>
 

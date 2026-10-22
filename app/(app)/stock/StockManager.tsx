@@ -39,7 +39,7 @@ function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="stock-dialog-title"
-        className="w-full max-w-md rounded-dialog bg-surface p-5 shadow-[0_12px_24px_-4px_rgba(16,24,40,.16)]"
+        className="w-full max-w-md rounded-hero border border-line-strong bg-surface p-5 shadow-pop"
         onClick={(event) => event.stopPropagation()}
       >
         <h2 id="stock-dialog-title" className="text-xl font-semibold">

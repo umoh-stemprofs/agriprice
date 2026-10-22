@@ -38,14 +38,12 @@ export function Tile({
       : size === "sm"
         ? "h-10 w-10 rounded-card text-xl"
         : "h-14 w-14 rounded-tile text-3xl";
-  const iconSize = size === "lg" ? "h-10 w-10" : size === "sm" ? "h-5 w-5" : "h-7 w-7";
-
   return (
     <span
       className={`flex shrink-0 items-center justify-center ${box} ${TILE_TINTS[tint]}`}
       aria-hidden="true"
     >
-      {typeof children === "string" ? <span>{children}</span> : <Icon name={children as IconName} className={iconSize} />}
+      {children}
     </span>
   );
 }
@@ -214,7 +212,7 @@ export function StatCard({
           <span className={`micro ${accent ? "text-brand-hover" : ""}`}>{label}</span>
           {tile}
         </div>
-        <p className={`display text-readout tabular ${accent ? "text-brand" : "text-ink"}`}>
+        <p className={`display min-w-0 break-words text-metric tabular sm:text-readout ${accent ? "text-brand" : "text-ink"}`}>
           {value}
           {unit && (
             <span className={`ml-1.5 text-headline-md ${accent ? "text-brand-hover" : "text-ink-muted"}`}>

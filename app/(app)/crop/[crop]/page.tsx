@@ -6,6 +6,8 @@ import { PriceLineChart } from "@/components/charts/PriceLineChart";
 import { MoneyLine } from "@/components/MoneyLine";
 import { SourceBadge } from "@/components/SourceBadge";
 import { StatusPill } from "@/components/StatusPill";
+import { Icon } from "@/components/ui/icons";
+import { cropIdentity, tileClasses } from "@/lib/crop-identity";
 import { cropField } from "@/lib/auth/validation";
 import { requireFarm, requireUser } from "@/lib/auth/guard";
 import { MARKET } from "@/lib/config";
@@ -31,10 +33,10 @@ function SmallCard({
   hint: string;
 }) {
   return (
-    <div className="rounded-card border border-line p-4">
-      <p className="text-sm font-medium text-ink-muted">{label}</p>
-      <p className="mt-1 text-2xl font-bold tabular-nums">{value}</p>
-      <p className="mt-1 text-sm text-ink-muted">{hint}</p>
+    <div className="rounded-panel border border-line bg-surface p-5">
+      <p className="micro">{label}</p>
+      <p className="mt-1.5 display text-metric-sm tabular text-ink">{value}</p>
+      <p className="mt-1 text-[13px] text-ink-muted">{hint}</p>
     </div>
   );
 }
@@ -94,15 +96,31 @@ export default async function CropDetailPage({ params }: { params: { crop: strin
   };
 
   return (
-    <div className="space-y-6">
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <Link href="/dashboard" className="text-sm font-medium text-brand underline">
-            ← Dashboard
+    <div className="space-y-8">
+      <header className="flex flex-wrap items-end justify-between gap-4">
+        <div className="min-w-0">
+          <Link
+            href="/market"
+            className="inline-flex items-center gap-1 text-label-md text-ink-muted hover:text-ink"
+          >
+            <Icon name="chevronRight" className="h-4 w-4 rotate-180" />
+            Market
           </Link>
-          <p className="mt-2 text-sm font-medium text-ink-muted">Crop</p>
-          <h1 className="text-3xl font-bold">{entry.label}</h1>
-          <p className="text-ink-muted">
+          <div className="mt-2 flex items-center gap-3">
+            <span
+              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-tile text-3xl ${tileClasses(
+                cropIdentity(crop).tone,
+              )}`}
+              aria-hidden="true"
+            >
+              {cropIdentity(crop).emoji}
+            </span>
+            <div className="min-w-0">
+              <p className="text-label-sm uppercase tracking-wider text-ink-muted">Crop</p>
+              <h1 className="display text-display-md text-ink">{entry.label}</h1>
+            </div>
+          </div>
+          <p className="mt-2 text-[15px] text-ink-muted tabular">
             {formatKg(qtyKg)} in stock · {formatNaira(latestKobo)} / {entry.unitLabel} as of{" "}
             {formatDayLong(today)}
           </p>
@@ -112,7 +130,7 @@ export default async function CropDetailPage({ params }: { params: { crop: strin
         </Link>
       </header>
 
-      <section className="card" aria-label="Sell or hold decision">
+      <section className="panel-lg" aria-label="Sell or hold decision">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <StatusPill status={result.status} size="lg" />
           <SourceBadge kind="simulated" />

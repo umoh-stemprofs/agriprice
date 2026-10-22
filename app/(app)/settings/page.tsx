@@ -9,13 +9,18 @@ export default async function SettingsPage() {
   const farm = await requireFarm(user.id);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <header>
-        <h1 className="text-2xl font-semibold">Settings</h1>
-        <p className="text-ink-muted">The farm name and the coordinates the weather uses.</p>
+        <span className="chip border-leaf-300 bg-leaf-100 font-bold uppercase tracking-wide text-brand">
+          Farm setup
+        </span>
+        <h1 className="display mt-2 text-display-md text-ink">Settings</h1>
+        <p className="mt-1 text-[17px] text-ink-muted">
+          The farm name and the coordinates the weather uses.
+        </p>
       </header>
 
-      <section aria-labelledby="farm-title" className="card">
+      <section aria-labelledby="farm-title" className="panel">
         <h2 id="farm-title" className="text-xl font-semibold">
           Farm
         </h2>
@@ -25,7 +30,7 @@ export default async function SettingsPage() {
         <FarmForm farm={{ name: farm.name, lat: farm.lat, lon: farm.lon }} />
       </section>
 
-      <section aria-labelledby="account-title" className="card">
+      <section aria-labelledby="account-title" className="panel">
         <h2 id="account-title" className="text-xl font-semibold">
           Account
         </h2>

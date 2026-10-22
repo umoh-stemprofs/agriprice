@@ -1,13 +1,15 @@
-import { SourceBadge } from "@/components/SourceBadge";
 import { cropLabel } from "@/lib/market/catalog";
 import type { HarvestAlert as HarvestAlertData } from "@/lib/weather/alerts";
-import type { WeatherBadge } from "@/lib/weather/types";
 
 /**
  * Harvest alert (docs/01-agriprice.md, rule 9). Shown next to the sell/hold
  * badges but never changes them: rain is a harvest warning, not a price signal.
+ *
+ * No source badge: the weather behind it comes from the live provider, so a
+ * "Live" chip would be noise (and market decisions keep their own Simulated
+ * badge where they are shown).
  */
-export function HarvestAlert({ alert, badge }: { alert: HarvestAlertData; badge: WeatherBadge }) {
+export function HarvestAlert({ alert }: { alert: HarvestAlertData }) {
   return (
     <div
       role="status"
@@ -35,7 +37,6 @@ export function HarvestAlert({ alert, badge }: { alert: HarvestAlertData; badge:
           </p>
         </div>
       </div>
-      <SourceBadge kind={badge} />
     </div>
   );
 }

@@ -53,10 +53,13 @@ export default async function CostsPage({
   const entry = catalogFor(selected);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <header>
-        <h1 className="text-2xl font-semibold">Cost of waiting</h1>
-        <p className="text-ink-muted">
+        <span className="chip border-leaf-300 bg-leaf-100 font-bold uppercase tracking-wide text-brand">
+          Per-crop maths
+        </span>
+        <h1 className="display mt-2 text-display-md text-ink">Cost of waiting</h1>
+        <p className="mt-1 text-[17px] text-ink-muted">
           Storage, spoilage and your minimum gain — the answer updates as you type.
         </p>
       </header>
@@ -70,7 +73,10 @@ export default async function CostsPage({
         </p>
       )}
 
-      <nav aria-label="Choose a crop" className="flex flex-wrap gap-2">
+      <nav
+        aria-label="Choose a crop"
+        className="flex flex-wrap gap-1 rounded-panel border border-line bg-surface-lower p-1"
+      >
         {CATALOG.map((item) => {
           const current = item.crop === selected;
           return (
@@ -78,17 +84,16 @@ export default async function CostsPage({
               key={item.crop}
               href={`/costs?crop=${item.crop}`}
               aria-current={current ? "page" : undefined}
-              className={`inline-flex min-h-[48px] items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                current
-                  ? "border-brand/40 bg-optimal-bg text-brand"
-                  : "border-line bg-surface text-ink-muted hover:bg-surface-dim hover:text-ink"
-              }`}
+              className={`tab-btn min-h-[44px] ${current ? "tab-btn-on" : "tab-btn-off"}`}
             >
               {item.label}
               {inStock.has(item.crop) && (
-                <span className="text-ink-muted" aria-hidden="true">
-                  · in stock
-                </span>
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    current ? "bg-white" : "bg-optimal"
+                  }`}
+                  aria-hidden="true"
+                />
               )}
             </Link>
           );
@@ -117,7 +122,7 @@ export default async function CostsPage({
         }
       />
 
-      <p className="text-sm text-ink-muted">
+      <p className="text-[13px] text-ink-muted">
         Saved costs feed the sell-or-hold answer on the dashboard and on each crop page. Sample
         numbers — an expert must review them before any real use.
       </p>
