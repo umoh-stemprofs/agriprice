@@ -38,10 +38,10 @@ export function LoginForm({ demoEnabled, next }: { demoEnabled: boolean; next?: 
   return (
     <>
       <h1 className="text-2xl font-semibold">Log in</h1>
-      <p className="mt-1 text-muted">See what your stock is worth today.</p>
+      <p className="mt-1 text-ink-muted">See what your stock is worth today.</p>
 
       {error && (
-        <p role="alert" className="mt-4 rounded-input border border-danger bg-danger-bg px-3 py-2 text-danger">
+        <p role="alert" className="mt-4 rounded-input border border-loss-line bg-loss-bg px-3 py-2 text-loss-text">
           {error}
         </p>
       )}
@@ -88,9 +88,9 @@ export function LoginForm({ demoEnabled, next }: { demoEnabled: boolean; next?: 
         </button>
       )}
 
-      <p className="mt-5 text-muted">
+      <p className="mt-5 text-ink-muted">
         New here?{" "}
-        <Link href="/signup" className="font-medium text-accent underline">
+        <Link href="/signup" className="font-medium text-brand underline">
           Create account
         </Link>
       </p>

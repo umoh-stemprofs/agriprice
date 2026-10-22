@@ -90,7 +90,7 @@ export function FarmForm({
             className="input"
             aria-describedby="lat-help"
           />
-          <p id="lat-help" className="mt-1 text-sm text-muted">
+          <p id="lat-help" className="mt-1 text-sm text-ink-muted">
             Between −90 and 90.
           </p>
         </div>
@@ -113,7 +113,7 @@ export function FarmForm({
             className="input"
             aria-describedby="lon-help"
           />
-          <p id="lon-help" className="mt-1 text-sm text-muted">
+          <p id="lon-help" className="mt-1 text-sm text-ink-muted">
             Between −180 and 180.
           </p>
         </div>
@@ -124,12 +124,12 @@ export function FarmForm({
       </button>
 
       {error && (
-        <p role="alert" className="rounded-input border border-danger bg-danger-bg px-3 py-2 text-danger">
+        <p role="alert" className="rounded-input border border-loss-line bg-loss-bg px-3 py-2 text-loss-text">
           {error}
         </p>
       )}
       {notice && (
-        <p role="status" className="rounded-input border border-success bg-success-bg px-3 py-2 text-success">
+        <p role="status" className="rounded-input border border-optimal-line bg-optimal-bg px-3 py-2 text-optimal-text">
           {notice}
         </p>
       )}

@@ -26,20 +26,20 @@ export function DemoHarvestSwitch() {
         />
         <span className="font-medium">Demo: show harvest alert</span>
       </label>
-      <p className="mt-1 text-sm text-muted">
+      <p className="mt-1 text-sm text-ink-muted">
         For the demo only. It shows the warning as it would look — nothing on the farm changes.
       </p>
 
       {show && (
         <div
           role="status"
-          className="mt-4 flex flex-wrap items-start justify-between gap-3 rounded-card border border-warning bg-warning-bg p-4"
+          className="mt-4 flex flex-wrap items-start justify-between gap-3 rounded-card border border-warn-line bg-warn-bg p-4"
         >
           <div className="flex items-start gap-3">
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
-              className="mt-0.5 h-5 w-5 shrink-0 text-warning"
+              className="mt-0.5 h-5 w-5 shrink-0 text-warn-text"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.75"
@@ -51,10 +51,10 @@ export function DemoHarvestSwitch() {
             </svg>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <p className="font-medium text-warning">{alert.word}</p>
-                <span className="pill bg-info-bg text-info">Demo preview</span>
+                <p className="font-medium text-warn-text">{alert.word}</p>
+                <span className="pill bg-info-bg text-info-text">Demo preview</span>
               </div>
-              <p className="mt-1 text-muted">{alert.sentence}</p>
+              <p className="mt-1 text-ink-muted">{alert.sentence}</p>
               <Link href={alert.href} className="btn-secondary mt-3">
                 {alert.action}
               </Link>

@@ -23,11 +23,11 @@ export const metadata = { title: "Alerts · AgriPrice" };
  */
 
 const TONE_CLASS: Record<AlertTone, string> = {
-  success: "text-success",
-  warning: "text-warning",
-  danger: "text-danger",
-  info: "text-info",
-  muted: "text-muted",
+  success: "text-optimal-text",
+  warning: "text-warn-text",
+  danger: "text-loss-text",
+  info: "text-info-text",
+  muted: "text-ink-muted",
 };
 
 function AlertIcon({ kind, className = "h-5 w-5" }: { kind: TodayAlert["kind"]; className?: string }) {
@@ -132,7 +132,7 @@ export default async function AlertsPage() {
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Alerts</h1>
-          <p className="text-muted">
+          <p className="text-ink-muted">
             {alerts.length === 0
               ? "Nothing needs your attention today."
               : `${alerts.length} alert${alerts.length === 1 ? "" : "s"} for ${farm.name} today.`}
@@ -148,7 +148,7 @@ export default async function AlertsPage() {
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
-            className="mx-auto h-8 w-8 text-success"
+            className="mx-auto h-8 w-8 text-optimal-text"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.75"
@@ -159,7 +159,7 @@ export default async function AlertsPage() {
             <path d="M8 12.5 11 15.5 16.5 9" />
           </svg>
           <p className="mt-3 font-medium">No alerts today.</p>
-          <p className="mt-1 text-muted">
+          <p className="mt-1 text-ink-muted">
             New alerts appear here when prices, costs or the weather are worth knowing about.
           </p>
           <Link href="/dashboard" className="btn-primary mt-4">
@@ -180,7 +180,7 @@ export default async function AlertsPage() {
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <p className={`font-medium ${TONE_CLASS[alert.tone]}`}>{alert.word}</p>
-                        {alert.demo && <span className="pill bg-info-bg text-info">Demo preview</span>}
+                        {alert.demo && <span className="pill bg-info-bg text-info-text">Demo preview</span>}
                       </div>
                       <p className="mt-1">{alert.sentence}</p>
                     </div>
@@ -200,7 +200,7 @@ export default async function AlertsPage() {
 
       {demoModeEnabled() && <DemoHarvestSwitch />}
 
-      <p className="text-sm text-muted">
+      <p className="text-sm text-ink-muted">
         Prices behind these alerts come from the simulated feed until a reviewed live source is
         connected. Sample decision rules — an expert must review them before any real use.
       </p>

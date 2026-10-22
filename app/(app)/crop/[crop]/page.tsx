@@ -31,10 +31,10 @@ function SmallCard({
   hint: string;
 }) {
   return (
-    <div className="rounded-card border border-border p-4">
-      <p className="text-sm font-medium text-muted">{label}</p>
+    <div className="rounded-card border border-line p-4">
+      <p className="text-sm font-medium text-ink-muted">{label}</p>
       <p className="mt-1 text-2xl font-bold tabular-nums">{value}</p>
-      <p className="mt-1 text-sm text-muted">{hint}</p>
+      <p className="mt-1 text-sm text-ink-muted">{hint}</p>
     </div>
   );
 }
@@ -97,12 +97,12 @@ export default async function CropDetailPage({ params }: { params: { crop: strin
     <div className="space-y-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <Link href="/dashboard" className="text-sm font-medium text-accent underline">
+          <Link href="/dashboard" className="text-sm font-medium text-brand underline">
             ← Dashboard
           </Link>
-          <p className="mt-2 text-sm font-medium text-muted">Crop</p>
+          <p className="mt-2 text-sm font-medium text-ink-muted">Crop</p>
           <h1 className="text-3xl font-bold">{entry.label}</h1>
-          <p className="text-muted">
+          <p className="text-ink-muted">
             {formatKg(qtyKg)} in stock · {formatNaira(latestKobo)} / {entry.unitLabel} as of{" "}
             {formatDayLong(today)}
           </p>
@@ -121,16 +121,16 @@ export default async function CropDetailPage({ params }: { params: { crop: strin
         <MoneyLine status={result.status} changeIfWaitKobo={result.changeIfWaitKobo} />
         {result.costsNotSet && (
           <p className="mt-2 text-sm">
-            <Link href={`/costs?crop=${crop}`} className="font-medium text-accent underline">
+            <Link href={`/costs?crop=${crop}`} className="font-medium text-brand underline">
               Set costs
             </Link>{" "}
-            <span className="text-muted">so the cost of holding is counted.</span>
+            <span className="text-ink-muted">so the cost of holding is counted.</span>
           </p>
         )}
         {qtyKg === 0 && (
-          <p className="mt-2 text-sm text-muted">
+          <p className="mt-2 text-sm text-ink-muted">
             You do not hold this crop right now, so the money line reads ₦0.{" "}
-            <Link href="/stock#add-stock" className="font-medium text-accent underline">
+            <Link href="/stock#add-stock" className="font-medium text-brand underline">
               Add stock
             </Link>
           </p>

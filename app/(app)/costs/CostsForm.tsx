@@ -81,7 +81,7 @@ export function CostsForm({
       <form className="card space-y-4" onSubmit={onSubmit} noValidate>
         <div>
           <h2 className="text-xl font-semibold">Cost of waiting for {label}</h2>
-          <p className="text-muted">Per week. Sample numbers — an expert must review them.</p>
+          <p className="text-ink-muted">Per week. Sample numbers — an expert must review them.</p>
         </div>
 
         <input type="hidden" name="crop" value={crop} />
@@ -102,7 +102,7 @@ export function CostsForm({
             className="input"
             aria-describedby="storage-help"
           />
-          <p id="storage-help" className="mt-1 text-sm text-muted">
+          <p id="storage-help" className="mt-1 text-sm text-ink-muted">
             What one week in the store costs for each kg of {label.toLowerCase()}.
           </p>
         </div>
@@ -124,7 +124,7 @@ export function CostsForm({
             className="input"
             aria-describedby="spoilage-help"
           />
-          <p id="spoilage-help" className="mt-1 text-sm text-muted">
+          <p id="spoilage-help" className="mt-1 text-sm text-ink-muted">
             Share of the stock lost each week, between 0 and 100.
           </p>
         </div>
@@ -146,7 +146,7 @@ export function CostsForm({
             className="input"
             aria-describedby="min-gain-help"
           />
-          <p id="min-gain-help" className="mt-1 text-sm text-muted">
+          <p id="min-gain-help" className="mt-1 text-sm text-ink-muted">
             Wait only if one week would gain at least this much.
           </p>
         </div>
@@ -154,7 +154,7 @@ export function CostsForm({
         {error && (
           <p
             role="alert"
-            className="rounded-input border border-danger bg-danger-bg px-3 py-2 text-danger"
+            className="rounded-input border border-loss-line bg-loss-bg px-3 py-2 text-loss-text"
           >
             {error}
           </p>
@@ -162,7 +162,7 @@ export function CostsForm({
         {notice && (
           <p
             role="status"
-            className="rounded-input border border-success bg-success-bg px-3 py-2 text-success"
+            className="rounded-input border border-optimal-line bg-optimal-bg px-3 py-2 text-optimal-text"
           >
             {notice}
           </p>
@@ -177,7 +177,7 @@ export function CostsForm({
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-xl font-semibold">Preview</h2>
-            <p className="text-muted">Nothing is saved until you press Save costs.</p>
+            <p className="text-ink-muted">Nothing is saved until you press Save costs.</p>
           </div>
           <SourceBadge kind="simulated" />
         </div>
@@ -190,23 +190,23 @@ export function CostsForm({
         <MoneyLine status={preview.status} changeIfWaitKobo={preview.changeIfWaitKobo} />
 
         <dl className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-card border border-border p-3">
-            <dt className="text-sm font-medium text-muted">Price today</dt>
+          <div className="rounded-card border border-line p-3">
+            <dt className="text-sm font-medium text-ink-muted">Price today</dt>
             <dd className="mt-1 font-semibold tabular-nums">
               {formatNaira(latestKobo)}
-              <span className="text-sm font-normal text-muted"> / {unitLabel}</span>
+              <span className="text-sm font-normal text-ink-muted"> / {unitLabel}</span>
             </dd>
           </div>
-          <div className="rounded-card border border-border p-3">
-            <dt className="text-sm font-medium text-muted">Cost of waiting</dt>
+          <div className="rounded-card border border-line p-3">
+            <dt className="text-sm font-medium text-ink-muted">Cost of waiting</dt>
             <dd className="mt-1 font-semibold tabular-nums">
               {formatNaira(preview.holdCostPerKgKobo)}
-              <span className="text-sm font-normal text-muted"> / kg / week</span>
+              <span className="text-sm font-normal text-ink-muted"> / kg / week</span>
             </dd>
           </div>
         </dl>
 
-        <p className="mt-3 text-sm text-muted">
+        <p className="mt-3 text-sm text-ink-muted">
           Your stock: {qtyKg.toLocaleString("en-NG")} kg
           {qtyKg === 0 && " — you do not hold this crop yet, so the money line reads ₦0."}
         </p>

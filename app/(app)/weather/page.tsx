@@ -27,7 +27,7 @@ export default async function WeatherPage() {
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Weather</h1>
-          <p className="text-muted">
+          <p className="text-ink-muted">
             {farm.name} · {farm.lat.toFixed(4)}, {farm.lon.toFixed(4)}
           </p>
         </div>
@@ -44,7 +44,7 @@ export default async function WeatherPage() {
         <h2 id="farm-tip-title" className="text-xl font-semibold">
           Farm tip
         </h2>
-        <p className="mt-2 text-muted">
+        <p className="mt-2 text-ink-muted">
           Rain and heat change what the harvest is worth. Cover or harvest early when heavy rain is
           coming; it is a harvest warning, not a reason to change the sell-or-hold badge.
         </p>

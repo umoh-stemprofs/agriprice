@@ -76,7 +76,7 @@ export default async function MarketPage({
     <div className="space-y-6">
       <header>
         <h1 className="text-2xl font-semibold">Market</h1>
-        <p className="text-muted">
+        <p className="text-ink-muted">
           {formatDayLong(today)} · prices for the last {MARKET.trendDays} days feed the sell-or-hold
           answer.
         </p>
@@ -84,7 +84,7 @@ export default async function MarketPage({
 
       <div className="flex flex-wrap items-center gap-3">
         <SourceBadge kind="simulated" />
-        <p className="text-sm text-muted">
+        <p className="text-sm text-ink-muted">
           The simulated feed is deterministic, so the same day always shows the same price.
         </p>
       </div>
@@ -92,7 +92,7 @@ export default async function MarketPage({
       {!latest ? (
         <div className="card">
           <p className="font-medium">Prices are unavailable right now.</p>
-          <p className="mt-1 text-muted">Try again in a moment. The rest of the app still works.</p>
+          <p className="mt-1 text-ink-muted">Try again in a moment. The rest of the app still works.</p>
         </div>
       ) : (
         <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -109,12 +109,12 @@ export default async function MarketPage({
                     <p className="font-semibold">
                       <Link
                         href={`/crop/${item.crop}`}
-                        className="hover:text-accent hover:underline"
+                        className="hover:text-brand hover:underline"
                       >
                         {item.label}
                       </Link>
                     </p>
-                    <p className="text-sm text-muted">per {item.unitLabel}</p>
+                    <p className="text-sm text-ink-muted">per {item.unitLabel}</p>
                   </div>
                   <SourceBadge kind="simulated" />
                 </div>
@@ -125,7 +125,7 @@ export default async function MarketPage({
 
                 <p
                   className={`mt-1 text-sm font-medium ${
-                    rising ? "text-success" : falling ? "text-danger" : "text-muted"
+                    rising ? "text-optimal-text" : falling ? "text-loss-text" : "text-ink-muted"
                   }`}
                 >
                   {change === null
@@ -150,8 +150,8 @@ export default async function MarketPage({
                   aria-current={current ? "page" : undefined}
                   className={`inline-flex min-h-[40px] items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                     current
-                      ? "border-accent/40 bg-success-bg text-accent"
-                      : "border-border bg-surface text-muted hover:bg-bg hover:text-text"
+                      ? "border-brand/40 bg-optimal-bg text-brand"
+                      : "border-line bg-surface text-ink-muted hover:bg-surface-dim hover:text-ink"
                   }`}
                 >
                   {item.label}
@@ -160,7 +160,7 @@ export default async function MarketPage({
             })}
           </nav>
 
-          <nav aria-label="Chart range" className="flex gap-1 rounded-full border border-border bg-surface p-1">
+          <nav aria-label="Chart range" className="flex gap-1 rounded-full border border-line bg-surface p-1">
             {DAY_CHOICES.map((choice) => {
               const current = choice === days;
               return (
@@ -169,7 +169,7 @@ export default async function MarketPage({
                   href={`/market?crop=${selected}&days=${choice}`}
                   aria-current={current ? "page" : undefined}
                   className={`inline-flex min-h-[40px] items-center rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                    current ? "bg-accent text-white" : "text-muted hover:bg-bg hover:text-text"
+                    current ? "bg-accent text-white" : "text-ink-muted hover:bg-surface-dim hover:text-ink"
                   }`}
                 >
                   {choice} days
@@ -189,7 +189,7 @@ export default async function MarketPage({
         </ChartCard>
       </section>
 
-      <p className="text-sm text-muted">
+      <p className="text-sm text-ink-muted">
         Base prices are sample numbers in{" "}
         <code className="rounded bg-surface px-1 py-0.5">lib/market/catalog.ts</code>. An expert
         should review them before any real use.

@@ -54,11 +54,11 @@ function StatCard({
   return (
     <div className="card">
       <div className="flex items-start justify-between gap-2">
-        <p className="text-sm font-medium text-muted">{label}</p>
+        <p className="text-sm font-medium text-ink-muted">{label}</p>
         {badge}
       </div>
       <p className="mt-2 text-4xl font-bold leading-10 tabular-nums">{value}</p>
-      <p className="mt-1 text-sm text-muted">{hint}</p>
+      <p className="mt-1 text-sm text-ink-muted">{hint}</p>
     </div>
   );
 }
@@ -166,7 +166,7 @@ export default async function DashboardPage() {
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">Dashboard</h1>
-          <p className="text-muted">
+          <p className="text-ink-muted">
             {formatDayLong(today)} · {farm?.name ?? "Your farm"}
           </p>
         </div>
@@ -179,9 +179,9 @@ export default async function DashboardPage() {
         <Link
           href="/alerts"
           role="status"
-          className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-info/40 bg-info-bg px-4 py-3"
+          className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-info-line/40 bg-info-bg px-4 py-3"
         >
-          <span className="flex items-center gap-2 font-medium text-info">
+          <span className="flex items-center gap-2 font-medium text-info-text">
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -197,7 +197,7 @@ export default async function DashboardPage() {
             </svg>
             {alertsToday.length} alert{alertsToday.length === 1 ? "" : "s"} today
           </span>
-          <span className="font-medium text-info underline">Open alerts</span>
+          <span className="font-medium text-info-text underline">Open alerts</span>
         </Link>
       )}
 
@@ -241,21 +241,21 @@ export default async function DashboardPage() {
               <h2 id="sell-hold-title" className="text-xl font-semibold">
                 Sell or hold
               </h2>
-              <p className="text-muted">What the next week looks like for each crop you hold.</p>
+              <p className="text-ink-muted">What the next week looks like for each crop you hold.</p>
             </div>
             <SourceBadge kind="simulated" />
           </div>
 
           {farmUnavailable && (
-            <p className="mt-4 rounded-input border border-warning bg-warning-bg px-3 py-2 text-warning">
+            <p className="mt-4 rounded-input border border-warn-line bg-warn-bg px-3 py-2 text-warn-text">
               We could not load your stock just now. The weather still works; try again in a moment.
             </p>
           )}
 
           {decisions.length === 0 ? (
-            <div className="mt-6 rounded-card border border-border p-6 text-center">
+            <div className="mt-6 rounded-card border border-line p-6 text-center">
               <p className="font-medium">No stock yet.</p>
-              <p className="mt-1 text-muted">Add what you are holding and the app will tell you when to sell.</p>
+              <p className="mt-1 text-ink-muted">Add what you are holding and the app will tell you when to sell.</p>
               <Link href="/stock" className="btn-primary mt-4">
                 Add stock
               </Link>
@@ -263,18 +263,18 @@ export default async function DashboardPage() {
           ) : (
             <ul className="mt-2">
               {decisions.map((decision) => (
-                <li key={decision.id} className="border-t border-border py-4 first:border-t-0">
+                <li key={decision.id} className="border-t border-line py-4 first:border-t-0">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="font-semibold">
                         <Link
                           href={`/crop/${decision.entry.crop}`}
-                          className="hover:text-accent hover:underline"
+                          className="hover:text-brand hover:underline"
                         >
                           {decision.entry.label}
                         </Link>
                       </p>
-                      <p className="text-sm text-muted">
+                      <p className="text-sm text-ink-muted">
                         {formatKg(decision.qtyKg)} in stock ·{" "}
                         {decision.tick
                           ? `${formatNaira(decision.tick.priceKobo)} / ${decision.entry.unitLabel} today`
@@ -290,7 +290,7 @@ export default async function DashboardPage() {
                     changeIfWaitKobo={decision.result.changeIfWaitKobo}
                   />
 
-                  <p className="mt-1 text-sm text-muted">
+                  <p className="mt-1 text-sm text-ink-muted">
                     Stock value now: {formatNaira(decision.result.stockValueNowKobo)}
                   </p>
 
@@ -298,11 +298,11 @@ export default async function DashboardPage() {
                     <p className="mt-1 text-sm">
                       <Link
                         href={`/costs?crop=${decision.entry.crop}`}
-                        className="font-medium text-accent underline"
+                        className="font-medium text-brand underline"
                       >
                         Set costs
                       </Link>{" "}
-                      <span className="text-muted">so holding costs are counted.</span>
+                      <span className="text-ink-muted">so holding costs are counted.</span>
                     </p>
                   )}
                 </li>

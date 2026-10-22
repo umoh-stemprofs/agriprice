@@ -56,7 +56,7 @@ export default async function CostsPage({
     <div className="space-y-6">
       <header>
         <h1 className="text-2xl font-semibold">Cost of waiting</h1>
-        <p className="text-muted">
+        <p className="text-ink-muted">
           Storage, spoilage and your minimum gain — the answer updates as you type.
         </p>
       </header>
@@ -64,7 +64,7 @@ export default async function CostsPage({
       {unknownCrop && (
         <p
           role="alert"
-          className="rounded-input border border-warning bg-warning-bg px-3 py-2 text-warning"
+          className="rounded-input border border-warn-line bg-warn-bg px-3 py-2 text-warn-text"
         >
           That crop is not in the catalog. Showing {entry.label} instead.
         </p>
@@ -80,13 +80,13 @@ export default async function CostsPage({
               aria-current={current ? "page" : undefined}
               className={`inline-flex min-h-[48px] items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                 current
-                  ? "border-accent/40 bg-success-bg text-accent"
-                  : "border-border bg-surface text-muted hover:bg-bg hover:text-text"
+                  ? "border-brand/40 bg-optimal-bg text-brand"
+                  : "border-line bg-surface text-ink-muted hover:bg-surface-dim hover:text-ink"
               }`}
             >
               {item.label}
               {inStock.has(item.crop) && (
-                <span className="text-muted" aria-hidden="true">
+                <span className="text-ink-muted" aria-hidden="true">
                   · in stock
                 </span>
               )}
@@ -117,7 +117,7 @@ export default async function CostsPage({
         }
       />
 
-      <p className="text-sm text-muted">
+      <p className="text-sm text-ink-muted">
         Saved costs feed the sell-or-hold answer on the dashboard and on each crop page. Sample
         numbers — an expert must review them before any real use.
       </p>

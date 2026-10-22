@@ -30,7 +30,7 @@ export function MoneyLine({
   }
 
   return (
-    <p className="text-muted">
+    <p className="text-ink-muted">
       Waiting would earn about {formatNaira(changeIfWaitKobo)}, but less than your minimum gain.
     </p>
   );

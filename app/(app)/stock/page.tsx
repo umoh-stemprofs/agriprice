@@ -46,7 +46,7 @@ export default async function StockPage() {
     <div className="space-y-6">
       <header>
         <h1 className="text-2xl font-semibold">Stock</h1>
-        <p className="text-muted">
+        <p className="text-ink-muted">
           {farm.name} · what you hold and what it is worth today.
         </p>
       </header>
@@ -54,11 +54,11 @@ export default async function StockPage() {
       <section aria-labelledby="total-value-title" className="card">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 id="total-value-title" className="text-sm font-medium text-muted">
+            <h2 id="total-value-title" className="text-sm font-medium text-ink-muted">
               Estimated market value
             </h2>
             <p className="mt-2 text-4xl font-bold leading-10 tabular-nums">{formatNaira(totalValue)}</p>
-            <p className="mt-1 text-sm text-muted">
+            <p className="mt-1 text-sm text-ink-muted">
               {formatKg(totalKg)} across {rows.length} crop{rows.length === 1 ? "" : "s"} · as of{" "}
               {formatDayLong(today)}
             </p>
@@ -66,7 +66,7 @@ export default async function StockPage() {
           <SourceBadge kind="simulated" />
         </div>
         {!market && (
-          <p className="mt-4 rounded-input border border-warning bg-warning-bg px-3 py-2 text-warning">
+          <p className="mt-4 rounded-input border border-warn-line bg-warn-bg px-3 py-2 text-warn-text">
             Prices are unavailable right now, so values are blank. Your stock is still saved.
           </p>
         )}

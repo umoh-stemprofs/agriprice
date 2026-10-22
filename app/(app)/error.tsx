@@ -20,7 +20,7 @@ export default function AppError({ error, reset }: { error: Error & { digest?: s
       <svg
         viewBox="0 0 24 24"
         aria-hidden="true"
-        className="mx-auto h-8 w-8 text-warning"
+        className="mx-auto h-8 w-8 text-warn-text"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.75"
@@ -31,7 +31,7 @@ export default function AppError({ error, reset }: { error: Error & { digest?: s
         <path d="M12 7.5V13M12 16.4v.2" />
       </svg>
       <h1 className="mt-3 text-xl font-semibold">Something went wrong on this page.</h1>
-      <p className="mt-2 text-muted">
+      <p className="mt-2 text-ink-muted">
         Nothing was lost — your stock and costs are still saved. Try the page again in a moment.
       </p>
       <div className="mt-4 flex flex-wrap justify-center gap-3">

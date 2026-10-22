@@ -43,7 +43,7 @@ export function ChartCard({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-xl font-semibold">{title}</h2>
-          {subtitle && <p className="text-muted">{subtitle}</p>}
+          {subtitle && <p className="text-ink-muted">{subtitle}</p>}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <SourceBadge kind={badge} />
@@ -61,18 +61,18 @@ export function ChartCard({
       </div>
 
       {empty ? (
-        <div className="mt-4 rounded-card border border-border p-6 text-center">
+        <div className="mt-4 rounded-card border border-line p-6 text-center">
           <p className="font-medium">Nothing to show yet.</p>
-          <p className="mt-1 text-muted">{emptyMessage}</p>
+          <p className="mt-1 text-ink-muted">{emptyMessage}</p>
         </div>
       ) : showTable ? (
         <div className="mt-4 overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <caption className="sr-only">{title}</caption>
             <thead>
-              <tr className="border-b border-border">
+              <tr className="border-b border-line">
                 {table.headers.map((header) => (
-                  <th key={header} scope="col" className="py-2 pr-4 font-medium text-muted">
+                  <th key={header} scope="col" className="py-2 pr-4 font-medium text-ink-muted">
                     {header}
                   </th>
                 ))}
@@ -80,7 +80,7 @@ export function ChartCard({
             </thead>
             <tbody>
               {table.rows.map((row, rowIndex) => (
-                <tr key={rowIndex} className="border-b border-border last:border-b-0">
+                <tr key={rowIndex} className="border-b border-line last:border-b-0">
                   {row.map((cell, cellIndex) => (
                     <td key={cellIndex} className="py-2 pr-4 tabular-nums">
                       {cell}
@@ -96,7 +96,7 @@ export function ChartCard({
           <p className="sr-only">Loading chart…</p>
           <div
             aria-hidden="true"
-            className="h-[260px] animate-pulse rounded-card border border-border bg-bg"
+            className="h-[260px] animate-pulse rounded-card border border-line bg-canvas"
           />
         </div>
       ) : (

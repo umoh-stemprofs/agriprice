@@ -22,10 +22,10 @@ export function SignupForm() {
   return (
     <>
       <h1 className="text-2xl font-semibold">Create account</h1>
-      <p className="mt-1 text-muted">One account for your farm, its stock and its costs.</p>
+      <p className="mt-1 text-ink-muted">One account for your farm, its stock and its costs.</p>
 
       {error && (
-        <p role="alert" className="mt-4 rounded-input border border-danger bg-danger-bg px-3 py-2 text-danger">
+        <p role="alert" className="mt-4 rounded-input border border-loss-line bg-loss-bg px-3 py-2 text-loss-text">
           {error}
         </p>
       )}
@@ -75,7 +75,7 @@ export function SignupForm() {
             aria-describedby="password-help"
             placeholder="At least 8 characters"
           />
-          <p id="password-help" className="mt-1 text-sm text-muted">
+          <p id="password-help" className="mt-1 text-sm text-ink-muted">
             At least 8 characters.
           </p>
         </div>
@@ -85,9 +85,9 @@ export function SignupForm() {
         </button>
       </form>
 
-      <p className="mt-5 text-muted">
+      <p className="mt-5 text-ink-muted">
         Already have an account?{" "}
-        <Link href="/login" className="font-medium text-accent underline">
+        <Link href="/login" className="font-medium text-brand underline">
           Back to login
         </Link>
       </p>

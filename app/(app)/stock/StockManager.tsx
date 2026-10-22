@@ -54,7 +54,7 @@ function Modal({
 function ErrorLine({ message }: { message: string | null }) {
   if (!message) return null;
   return (
-    <p role="alert" className="rounded-input border border-danger bg-danger-bg px-3 py-2 text-danger">
+    <p role="alert" className="rounded-input border border-loss-line bg-loss-bg px-3 py-2 text-loss-text">
       {message}
     </p>
   );
@@ -140,7 +140,7 @@ export function StockManager({
         <h2 id="add-stock-title" className="text-xl font-semibold">
           Add stock
         </h2>
-        <p className="text-muted">Adding a crop you already hold tops up that row.</p>
+        <p className="text-ink-muted">Adding a crop you already hold tops up that row.</p>
 
         <form className="mt-4 grid gap-4 sm:grid-cols-2" onSubmit={onAdd} noValidate>
           <div>
@@ -204,21 +204,21 @@ export function StockManager({
           Your stock
         </h2>
 
-        <p aria-live="polite" className="mt-1 min-h-[24px] text-sm text-success">
+        <p aria-live="polite" className="mt-1 min-h-[24px] text-sm text-optimal-text">
           {notice}
         </p>
 
         {rows.length === 0 ? (
-          <div className="rounded-card border border-border p-6 text-center">
+          <div className="rounded-card border border-line p-6 text-center">
             <p className="font-medium">No stock yet.</p>
-            <p className="mt-1 text-muted">Use the form above to add the first crop.</p>
+            <p className="mt-1 text-ink-muted">Use the form above to add the first crop.</p>
           </div>
         ) : (
           <>
             <div className="mt-2 hidden overflow-x-auto md:block">
               <table className="w-full border-collapse text-left">
                 <thead>
-                  <tr className="border-b border-border text-sm text-muted">
+                  <tr className="border-b border-line text-sm text-ink-muted">
                     <th scope="col" className="py-2 pr-3 font-medium">
                       Crop
                     </th>
@@ -238,10 +238,10 @@ export function StockManager({
                 </thead>
                 <tbody>
                   {rows.map((row) => (
-                    <tr key={row.id} className="border-b border-border align-middle">
+                    <tr key={row.id} className="border-b border-line align-middle">
                       <td className="py-3 pr-3">
                         <p className="font-medium">{row.label}</p>
-                        {row.note && <p className="text-sm text-muted">{row.note}</p>}
+                        {row.note && <p className="text-sm text-ink-muted">{row.note}</p>}
                       </td>
                       <td className="py-3 pr-3 tabular-nums">{formatKg(row.qtyKg)}</td>
                       <td className="py-3 pr-3 tabular-nums">
@@ -266,7 +266,7 @@ export function StockManager({
                           </button>
                           <button
                             type="button"
-                            className="btn-ghost px-3 text-sm text-danger hover:text-danger"
+                            className="btn-ghost px-3 text-sm text-loss-text hover:text-loss-text"
                             onClick={() => {
                               setDeleteError(null);
                               setDeleting(row);
@@ -284,16 +284,16 @@ export function StockManager({
 
             <ul className="mt-2 space-y-3 md:hidden">
               {rows.map((row) => (
-                <li key={row.id} className="rounded-card border border-border p-4">
+                <li key={row.id} className="rounded-card border border-line p-4">
                   <p className="font-semibold">{row.label}</p>
-                  {row.note && <p className="text-sm text-muted">{row.note}</p>}
+                  {row.note && <p className="text-sm text-ink-muted">{row.note}</p>}
                   <dl className="mt-2 space-y-1 text-sm">
                     <div className="flex justify-between gap-3">
-                      <dt className="text-muted">Stock</dt>
+                      <dt className="text-ink-muted">Stock</dt>
                       <dd className="tabular-nums">{formatKg(row.qtyKg)}</dd>
                     </div>
                     <div className="flex justify-between gap-3">
-                      <dt className="text-muted">Today&apos;s price</dt>
+                      <dt className="text-ink-muted">Today&apos;s price</dt>
                       <dd className="tabular-nums">
                         {row.priceKobo === null
                           ? "Unavailable"
@@ -301,7 +301,7 @@ export function StockManager({
                       </dd>
                     </div>
                     <div className="flex justify-between gap-3">
-                      <dt className="text-muted">Estimated value</dt>
+                      <dt className="text-ink-muted">Estimated value</dt>
                       <dd className="font-medium tabular-nums">
                         {row.valueKobo === null ? "—" : formatNaira(row.valueKobo)}
                       </dd>
@@ -320,7 +320,7 @@ export function StockManager({
                     </button>
                     <button
                       type="button"
-                      className="btn-ghost flex-1 px-3 text-sm text-danger hover:text-danger"
+                      className="btn-ghost flex-1 px-3 text-sm text-loss-text hover:text-loss-text"
                       onClick={() => {
                         setDeleteError(null);
                         setDeleting(row);

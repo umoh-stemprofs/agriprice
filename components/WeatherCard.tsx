@@ -23,9 +23,9 @@ export function WeatherCard({
         <h2 id="weather-title" className="text-xl font-semibold">
           Weather
         </h2>
-        <div className="mt-4 rounded-card border border-danger bg-danger-bg p-4">
-          <p className="font-medium text-danger">Weather is unavailable</p>
-          <p className="mt-1 text-muted">{weather.error}</p>
+        <div className="mt-4 rounded-card border border-loss-line bg-loss-bg p-4">
+          <p className="font-medium text-loss-text">Weather is unavailable</p>
+          <p className="mt-1 text-ink-muted">{weather.error}</p>
           <Link href="/weather" className="btn-secondary mt-3">
             Retry
           </Link>
@@ -43,7 +43,7 @@ export function WeatherCard({
           <h2 id="weather-title" className="text-xl font-semibold">
             Weather
           </h2>
-          <p className="text-muted">
+          <p className="text-ink-muted">
             {data.daily[0]?.date ? formatDayShort(data.daily[0].date) : "Today"} ·{" "}
             {data.daily.length}-day forecast
           </p>
@@ -53,7 +53,7 @@ export function WeatherCard({
 
       <div className="mt-4 flex flex-wrap items-baseline gap-3">
         <p className="text-4xl font-bold tabular-nums">{Math.round(data.current.tempC)}°C</p>
-        <p className="text-muted">
+        <p className="text-ink-muted">
           {data.current.text} · humidity {data.current.humidity}% · wind{" "}
           {Math.round(data.current.windKmh)} km/h
         </p>
@@ -66,13 +66,13 @@ export function WeatherCard({
           }`}
         >
           {data.daily.map((day) => (
-            <li key={day.date} className="rounded-card border border-border p-3 text-center">
-              <p className="text-sm font-medium text-muted">{formatDayShort(day.date)}</p>
+            <li key={day.date} className="rounded-card border border-line p-3 text-center">
+              <p className="text-sm font-medium text-ink-muted">{formatDayShort(day.date)}</p>
               <p className="mt-1 font-semibold tabular-nums">
                 {Math.round(day.maxC)}° / {Math.round(day.minC)}°
               </p>
-              <p className="text-sm text-muted tabular-nums">{day.rainMm} mm</p>
-              <p className="text-sm text-muted tabular-nums">{day.rainChancePct}% rain</p>
+              <p className="text-sm text-ink-muted tabular-nums">{day.rainMm} mm</p>
+              <p className="text-sm text-ink-muted tabular-nums">{day.rainChancePct}% rain</p>
             </li>
           ))}
         </ul>

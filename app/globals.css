@@ -2,73 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
-/* design.md §1 / §7 */
+/*
+ * AgriPulse Precision, applied to AgriPrice.
+ * Source: stitch_agropulse_analytics_dashboard (agripulse_precision/DESIGN.md
+ * plus the palette Stitch emitted in each screen's generated HTML).
+ *
+ * Doctrine: border-focused minimalist. Depth comes from hairline framing and
+ * contrasting surface fills, never from drop shadows. All metrics use
+ * tabular figures so columns never jitter.
+ */
+
 :root {
-  --bg: #f7f8fa;
+  --canvas: #f4f7fb;
   --surface: #ffffff;
-  --border: #e4e7ec;
-  --text: #101828;
-  --muted: #475467;
-  --success: #1b7f3b;
-  --warning: #b54708;
-  --danger: #b42318;
-  --info: #175cd3;
-  --accent: #1b7f3b;
-  --radius: 12px;
+  --surface-low: #fafcff;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --ink: #0f172a;
+  --ink-muted: #64748b;
+  --brand: #15803d;
+  --brand-hover: #166534;
+  --brand-tint: #dcfce7;
+  --optimal: #16a34a;
+  --optimal-text: #15803d;
+  --optimal-bg: #f0fdf4;
+  --optimal-line: #bbf7d0;
+  --warn: #d97706;
+  --warn-text: #b45309;
+  --warn-bg: #fef3c7;
+  --warn-line: #fde68a;
+  --loss: #dc2626;
+  --loss-bg: #fef2f2;
+  --loss-line: #fecaca;
 }
 
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: var(--canvas);
+  color: var(--ink);
 }
 
-/* Shared pieces (docs/design.md §2). Plain words, one main action per screen. */
+/* The dual pairing: Jakarta for structure, Inter for analytical readouts. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), "Plus Jakarta Sans", system-ui, sans-serif;
+  letter-spacing: -0.015em;
+}
+
+/* DESIGN.md: every quantitative output enforces tabular figures. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Shared pieces, restyled to the border-focused system. */
 @layer components {
   .card {
-    @apply rounded-card border border-border bg-surface p-5 shadow-card;
+    @apply rounded-card border border-line bg-surface p-6;
   }
 
   .label {
-    @apply block text-sm font-medium text-muted;
+    @apply block text-[13px] font-medium tracking-[0.01em] text-ink-muted;
+  }
+
+  /* Micro-label: uppercase + tracked, for sensor-style tags. */
+  .micro {
+    @apply text-[11px] font-semibold uppercase tracking-[0.04em] text-ink-muted;
   }
 
   .input {
-    @apply mt-1 block min-h-[48px] w-full rounded-input border border-border bg-surface px-3 py-2.5 text-base text-text placeholder:text-muted/70;
+    @apply mt-1 block min-h-[48px] w-full rounded-input border border-line bg-surface px-3 py-2 text-[14px] text-ink placeholder:text-ink-faint;
+  }
+
+  .input:focus {
+    @apply border-brand;
+    box-shadow: 0 0 0 1px var(--brand);
   }
 
   .btn-primary {
-    @apply inline-flex min-h-[56px] items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 font-medium text-white transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-60 sm:min-h-[48px];
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card bg-brand px-4 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-brand-hover active:bg-brand-active disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-secondary {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 font-medium text-text transition-colors hover:bg-bg disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card border border-line bg-surface px-4 py-2.5 text-[13px] font-medium text-ink transition-colors hover:border-line-strong hover:bg-canvas disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-ghost {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg px-3 py-2 font-medium text-muted transition-colors hover:bg-bg hover:text-text;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-card px-3 py-2 text-[13px] font-medium text-ink-muted transition-colors hover:bg-surface-dim hover:text-ink;
   }
 
   .btn-danger {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-danger px-4 py-2.5 font-medium text-white transition-colors hover:bg-danger/90 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card bg-loss px-4 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-loss/90 disabled:cursor-not-allowed disabled:opacity-60;
   }
 
+  /* Telemetry chip: compact, 4px radius, label-sm type. Never a pill. */
   .pill {
-    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm font-medium;
+    @apply inline-flex items-center gap-1.5 rounded-chip border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.04em];
+  }
+
+  /* Segmented gauge track (soil moisture / capacity style). */
+  .gauge {
+    @apply h-1.5 w-full overflow-hidden rounded-chip bg-line;
   }
 }
 
-/* Visible focus ring, design.md §5 */
+/* Visible focus ring in the brand colour. */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
-/* Keep scrolled-to elements clear of the fixed bars: the sticky top bar
-   (~56 px) and the phone bottom nav (~72 px). Without this, a button or
-   focused input can land underneath the fixed bottom navigation and the tap
-   goes to a nav link instead (found in the click-through). */
+/* Keep scrolled-to elements clear of the fixed bars. */
 html {
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: 5rem;
   scroll-padding-bottom: 5.5rem;
 }
 

@@ -3,28 +3,31 @@
  * "state which data is live and which is simulated").
  * Always colour + icon + word, never colour alone. Top-right of every card
  * that shows prices or weather.
+ *
+ * Colours follow the AgriPulse telemetry chip spec (agripulse_precision):
+ * a pale fill, a 1px border in the same hue and label-sm type at 4px radius.
  */
 
 export type BadgeKind = "live" | "saved" | "simulated";
 
 const STYLES: Record<BadgeKind, { className: string; label: (age?: string) => string }> = {
   live: {
-    className: "bg-success-bg text-success",
+    className: "border-optimal-line bg-optimal-bg text-optimal-text",
     label: (age) => (age ? `Live · updated ${age}` : "Live"),
   },
   saved: {
-    className: "bg-warning-bg text-warning",
+    className: "border-warn-line bg-warn-bg text-warn-text",
     label: (age) => (age ? `Saved data · ${age}` : "Saved data"),
   },
   simulated: {
-    className: "bg-info-bg text-info",
+    className: "border-line-strong bg-surface-lower text-ink-muted",
     label: () => "Simulated",
   },
 };
 
 function Icon({ kind }: { kind: BadgeKind }) {
   if (kind === "live") {
-    // green dot
+    // solid dot
     return (
       <svg viewBox="0 0 8 8" aria-hidden="true" className="h-2 w-2 fill-current">
         <circle cx="4" cy="4" r="4" />
@@ -32,7 +35,7 @@ function Icon({ kind }: { kind: BadgeKind }) {
     );
   }
   if (kind === "saved") {
-    // amber clock
+    // clock
     return (
       <svg
         viewBox="0 0 16 16"
@@ -47,7 +50,7 @@ function Icon({ kind }: { kind: BadgeKind }) {
       </svg>
     );
   }
-  // blue flask
+  // flask
   return (
     <svg
       viewBox="0 0 16 16"
@@ -57,7 +60,11 @@ function Icon({ kind }: { kind: BadgeKind }) {
       stroke="currentColor"
       strokeWidth="1.75"
     >
-      <path d="M6.5 2h3M7 2v4L3.8 11.4A1.5 1.5 0 0 0 5.1 14h5.8a1.5 1.5 0 0 0 1.3-2.6L9 6V2" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M6.5 2h3M7 2v4L3.8 11.4A1.5 1.5 0 0 0 5.1 14h5.8a1.5 1.5 0 0 0 1.3-2.6L9 6V2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
       <path d="M5.2 10h5.6" strokeLinecap="round" />
     </svg>
   );
@@ -66,9 +73,7 @@ function Icon({ kind }: { kind: BadgeKind }) {
 export function SourceBadge({ kind, age }: { kind: BadgeKind; age?: string }) {
   const style = STYLES[kind];
   return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-sm font-medium ${style.className}`}
-    >
+    <span className={`pill ${style.className}`}>
       <Icon kind={kind} />
       {style.label(age)}
     </span>
