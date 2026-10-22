@@ -1,0 +1,302 @@
+<main class="w-full pt-16 bg-[#F8FAFC] min-h-screen">
+
+<div class="flex flex-col w-full">
+
+<div class="px-space-lg py-space-xl max-w-[1400px] mx-auto w-full flex flex-col gap-space-xl">
+<!-- 1. Header: Big clear title and subtitle -->
+
+<div class="flex flex-col gap-1">
+
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-[#DCFCE7] text-[#15803D] font-bold text-xs uppercase tracking-wide">Daily Overview</span>
+<span class="text-secondary font-body-sm text-sm">North Field · Sector 4</span>
+</div>
+
+<h1 class="text-3xl md:text-4xl font-extrabold text-[#0B1C30] tracking-tight">Weather &amp; Soil Check</h1>
+<p class="text-lg text-secondary">Simple guide for what your crops need today.</p>
+</div>
+
+<!-- 2. Huge Big Advice Banner at the top -->
+
+<div class="bg-gradient-to-r from-[#ECFDF5] via-[#F0FDF4] to-[#E6F4EA] border-2 border-[#86EFAC] rounded-2xl p-6 md:p-7 shadow-sm relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-5">
+
+<div class="flex items-center gap-5">
+
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-[#22C55E] text-white flex items-center justify-center shrink-0 shadow-md shadow-[#22C55E]/20">
+<span class="material-symbols-outlined text-[54px] md:text-[62px]">sentiment_very_satisfied</span>
+</div>
+
+
+<div class="flex flex-col">
+
+<div class="flex items-center gap-2 mb-1">
+<span class="px-3 py-0.5 rounded-full bg-[#16A34A] text-white font-bold text-xs tracking-wider uppercase">What to do today</span>
+<span class="text-xs font-semibold text-[#15803D] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">eco</span> Great Field Conditions
+        </span>
+</div>
+
+<h2 class="text-2xl md:text-3xl font-extrabold text-[#064E3B] leading-tight">
+        Soil is in great shape! Rain coming in 2 days (Wednesday). Best to wait on watering.
+      </h2>
+<p class="text-[#047857] text-base mt-1 font-medium">
+        Save your water pump power. The upcoming rain will give your crops everything they need.
+      </p>
+</div>
+
+</div>
+
+
+<div class="shrink-0 flex items-center gap-3">
+<button class="px-6 py-3 rounded-xl bg-[#16A34A] hover:bg-[#15803D] text-white font-bold text-base shadow-sm transition-transform active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span class="">Got it, thanks!</span>
+</button>
+</div>
+
+</div>
+
+<!-- 3. Today's Weather (Giant, clean, bold) -->
+
+<div class="bg-white rounded-2xl p-7 shadow-sm border border-[#E2E8F0] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+
+<div class="flex flex-wrap items-center gap-6 md:gap-8">
+<!-- Huge sun icon -->
+
+<div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[72px] md:text-[84px] animate-[spin_40s_linear_infinite]">sunny</span>
+</div>
+
+
+<div class="flex flex-col">
+
+<div class="flex items-baseline gap-3">
+<span class="text-6xl md:text-7xl font-extrabold text-[#0B1C30] tracking-tight">28°C</span>
+<span class="text-xl md:text-2xl font-bold text-[#D97706] bg-[#FEF3C7] px-3 py-1 rounded-lg">Sunny &amp; Warm</span>
+</div>
+
+<p class="text-lg text-secondary font-medium mt-1">Plenty of bright sunshine all day long. Perfect conditions for growth.</p>
+</div>
+
+</div>
+
+<!-- 3 simple tags -->
+
+<div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+
+<div class="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#F1F5F9] border border-[#E2E8F0]">
+<span class="material-symbols-outlined text-[#0284C7] text-[24px]">water_drop</span>
+
+<div>
+<p class="text-xs uppercase font-bold text-secondary">Precipitation</p>
+<p class="text-base font-bold text-[#0B1C30]">Rain Chance: 5% (Dry)</p>
+</div>
+
+</div>
+
+
+<div class="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#F1F5F9] border border-[#E2E8F0]">
+<span class="material-symbols-outlined text-[#64748B] text-[24px]">air</span>
+
+<div>
+<p class="text-xs uppercase font-bold text-secondary">Breeze</p>
+<p class="text-base font-bold text-[#0B1C30]">Wind: Light Breeze</p>
+</div>
+
+</div>
+
+
+<div class="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#F1F5F9] border border-[#E2E8F0]">
+<span class="material-symbols-outlined text-[#16A34A] text-[24px]">sentiment_satisfied</span>
+
+<div>
+<p class="text-xs uppercase font-bold text-secondary">Comfort</p>
+<p class="text-base font-bold text-[#0B1C30]">Air: Comfortable</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- 4. Simple 3-Day Forecast Cards (Large, visual, zero clutter) -->
+
+<div class="flex flex-col gap-4">
+
+<div class="flex items-center justify-between">
+<h2 class="text-2xl font-bold text-[#0B1C30]">3-Day Simple Forecast</h2>
+<span class="text-sm font-semibold text-secondary">Plan your field activities</span>
+</div>
+
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Today (Monday) Card -->
+
+<div class="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#BBF7D0] flex flex-col justify-between gap-6 hover:shadow-md transition-shadow">
+
+<div>
+
+<div class="flex items-center justify-between mb-4">
+
+<div>
+<span class="text-xs uppercase tracking-wider font-extrabold text-[#15803D]">Today</span>
+<h3 class="text-xl font-bold text-[#0B1C30]">Monday</h3>
+</div>
+
+
+<div class="w-14 h-14 rounded-xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center">
+<span class="material-symbols-outlined text-[36px]">sunny</span>
+</div>
+
+</div>
+
+
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-4xl font-extrabold text-[#0B1C30]">29°C</span>
+<span class="text-base font-medium text-secondary">/ 18°C night</span>
+</div>
+
+<p class="text-base font-semibold text-[#0B1C30]">Dry &amp; Sunny</p>
+<p class="text-sm text-secondary mt-1">Calm winds and bright warm sun all afternoon.</p>
+</div>
+
+
+<div>
+<span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#DCFCE7] text-[#15803D] font-bold text-sm w-full justify-center">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+          Good field work day
+        </span>
+</div>
+
+</div>
+
+<!-- Tomorrow (Tuesday) Card -->
+
+<div class="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#BBF7D0] flex flex-col justify-between gap-6 hover:shadow-md transition-shadow">
+
+<div>
+
+<div class="flex items-center justify-between mb-4">
+
+<div>
+<span class="text-xs uppercase tracking-wider font-bold text-secondary">Tomorrow</span>
+<h3 class="text-xl font-bold text-[#0B1C30]">Tuesday</h3>
+</div>
+
+
+<div class="w-14 h-14 rounded-xl bg-[#F1F5F9] text-[#475569] flex items-center justify-center">
+<span class="material-symbols-outlined text-[36px]">partly_cloudy_day</span>
+</div>
+
+</div>
+
+
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-4xl font-extrabold text-[#0B1C30]">27°C</span>
+<span class="text-base font-medium text-secondary">/ 17°C night</span>
+</div>
+
+<p class="text-base font-semibold text-[#0B1C30]">Partly Cloudy</p>
+<p class="text-sm text-secondary mt-1">Gentle cloud cover keeps things mild and comfortable.</p>
+</div>
+
+
+<div>
+<span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#DCFCE7] text-[#15803D] font-bold text-sm w-full justify-center">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+          Good field work day
+        </span>
+</div>
+
+</div>
+
+<!-- Wednesday Card (Rain Alert) -->
+
+<div class="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#93C5FD] flex flex-col justify-between gap-6 hover:shadow-md transition-shadow relative overflow-hidden">
+
+<div class="absolute top-0 left-0 right-0 h-2 bg-[#2563EB]">
+</div>
+
+
+<div>
+
+<div class="flex items-center justify-between mb-4">
+
+<div>
+<span class="text-xs uppercase tracking-wider font-extrabold text-[#2563EB]">In 2 Days</span>
+<h3 class="text-xl font-bold text-[#0B1C30]">Wednesday</h3>
+</div>
+
+
+<div class="w-14 h-14 rounded-xl bg-[#DBEAFE] text-[#2563EB] flex items-center justify-center">
+<span class="material-symbols-outlined text-[36px]">rainy</span>
+</div>
+
+</div>
+
+
+<div class="flex items-baseline gap-2 mb-2">
+<span class="text-4xl font-extrabold text-[#0B1C30]">23°C</span>
+<span class="text-base font-medium text-secondary">/ 15°C night</span>
+</div>
+
+<p class="text-base font-extrabold text-[#2563EB]">Rain is Coming! (14mm)</p>
+<p class="text-sm text-secondary mt-1">Soaking rain expected from mid-morning through evening.</p>
+</div>
+
+
+<div>
+<span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#DBEAFE] text-[#1D4ED8] font-bold text-sm w-full justify-center">
+<span class="material-symbols-outlined text-[18px]">umbrella</span>
+          Stay inside / No watering needed
+        </span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- 5. Soil Health in Plain Words (Zero Jargon) -->
+
+<div class="flex flex-col gap-4">
+
+<div class="flex items-center justify-between">
+
+<div>
+
+
+</div>
+
+
+</div>
+
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+<!-- Water in Dirt (Moisture) - 5 Cols -->
+
+<!-- Plant Food (Nutrients) + Soil Acid (pH) - 7 Cols -->
+
+<div class="lg:col-span-7 flex flex-col gap-5">
+<!-- Plant Food (Nutrients) -->
+
+<!-- Soil Acid (pH) -->
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+</div>
+
+
+</body>
+</html>

@@ -5,10 +5,11 @@
 /*
  * AgriPulse Precision, applied to AgriPrice.
  * Source: stitch_agropulse_analytics_dashboard (agripulse_precision/DESIGN.md
- * plus the palette Stitch emitted in each screen's generated HTML).
+ * plus the palette, type scale and spacing cadence Stitch emitted in each
+ * screen's generated HTML).
  *
  * Doctrine: border-focused minimalist. Depth comes from hairline framing and
- * contrasting surface fills, never from drop shadows. All metrics use
+ * contrasting surface fills, never from drop shadows on cards. All metrics use
  * tabular figures so columns never jitter.
  */
 
@@ -22,6 +23,7 @@
   --ink-muted: #64748b;
   --brand: #15803d;
   --brand-hover: #166534;
+  --brand-active: #14532d;
   --brand-tint: #dcfce7;
   --optimal: #16a34a;
   --optimal-text: #15803d;
@@ -34,6 +36,9 @@
   --loss: #dc2626;
   --loss-bg: #fef2f2;
   --loss-line: #fecaca;
+  --info: #0369a1;
+  --info-bg: #f0f9ff;
+  --info-line: #bae6fd;
 }
 
 body {
@@ -41,7 +46,10 @@ body {
   color: var(--ink);
 }
 
-/* The dual pairing: Jakarta for structure, Inter for analytical readouts. */
+/*
+ * The dual pairing: Jakarta for structure, Inter for analytical readouts.
+ * The screens use very heavy weights on display headings and numerals.
+ */
 h1,
 h2,
 h3,
@@ -50,8 +58,15 @@ h4 {
   letter-spacing: -0.015em;
 }
 
+.display {
+  font-family: var(--font-display), "Plus Jakarta Sans", system-ui, sans-serif;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+}
+
 /* DESIGN.md: every quantitative output enforces tabular figures. */
-.tabular {
+.tabular,
+input[type="number"] {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 }
@@ -62,13 +77,21 @@ h4 {
     @apply rounded-card border border-line bg-surface p-6;
   }
 
+  .panel {
+    @apply rounded-panel border border-line bg-surface p-6;
+  }
+
+  .panel-lg {
+    @apply rounded-hero border border-line bg-surface p-6 md:p-8;
+  }
+
   .label {
-    @apply block text-[13px] font-medium tracking-[0.01em] text-ink-muted;
+    @apply block text-label-md text-ink-muted;
   }
 
   /* Micro-label: uppercase + tracked, for sensor-style tags. */
   .micro {
-    @apply text-[11px] font-semibold uppercase tracking-[0.04em] text-ink-muted;
+    @apply text-label-sm uppercase tracking-[0.04em] text-ink-muted;
   }
 
   .input {
@@ -81,29 +104,73 @@ h4 {
   }
 
   .btn-primary {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card bg-brand px-4 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-brand-hover active:bg-brand-active disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card bg-brand px-5 py-2.5 text-label-md font-semibold text-white transition-colors hover:bg-brand-hover active:bg-brand-active disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-secondary {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card border border-line bg-surface px-4 py-2.5 text-[13px] font-medium text-ink transition-colors hover:border-line-strong hover:bg-canvas disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card border border-line bg-surface px-5 py-2.5 text-label-md font-medium text-ink transition-colors hover:border-line-strong hover:bg-canvas disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-ghost {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-card px-3 py-2 text-[13px] font-medium text-ink-muted transition-colors hover:bg-surface-dim hover:text-ink;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-card px-3 py-2 text-label-md font-medium text-ink-muted transition-colors hover:bg-surface-dim hover:text-ink;
   }
 
   .btn-danger {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card bg-loss px-4 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-loss/90 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-card bg-loss px-5 py-2.5 text-label-md font-semibold text-white transition-colors hover:bg-loss/90 disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   /* Telemetry chip: compact, 4px radius, label-sm type. Never a pill. */
   .pill {
-    @apply inline-flex items-center gap-1.5 rounded-chip border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.04em];
+    @apply inline-flex items-center gap-1.5 rounded-chip border px-2 py-0.5 text-label-sm uppercase tracking-[0.04em];
+  }
+
+  /* The status chip the screens use: dot + sentence case, 4px radius. */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-chip border px-2.5 py-1 text-label-sm;
   }
 
   /* Segmented gauge track (soil moisture / capacity style). */
   .gauge {
     @apply h-1.5 w-full overflow-hidden rounded-chip bg-line;
+  }
+
+  /* The chunky capacity track the storage screen uses. */
+  .gauge-lg {
+    @apply h-6 w-full overflow-hidden rounded-full bg-surface-dim p-1;
+  }
+
+  /* Analytical data table (DESIGN.md). */
+  .data-table {
+    @apply w-full border-collapse text-left text-[14px];
+  }
+
+  .data-table thead th {
+    @apply border-b border-line bg-surface-lower px-3 py-2 text-label-sm uppercase tracking-[0.04em] text-ink-muted;
+  }
+
+  .data-table tbody td {
+    @apply border-b border-line-soft px-3 py-2;
+  }
+
+  .data-table tbody tr:hover td {
+    @apply bg-surface-lower;
+  }
+
+  .data-table .num {
+    @apply text-right tabular;
+  }
+
+  /* Chart view switcher (crop prices screen). */
+  .tab-btn {
+    @apply flex flex-1 items-center justify-center gap-2 rounded-input px-4 py-2.5 text-label-md font-semibold transition-colors;
+  }
+
+  .tab-btn-on {
+    @apply bg-brand text-white shadow-lift;
+  }
+
+  .tab-btn-off {
+    @apply text-ink-muted hover:bg-white/80 hover:text-ink;
   }
 }
 

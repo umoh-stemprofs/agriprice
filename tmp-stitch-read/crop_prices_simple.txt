@@ -1,0 +1,667 @@
+<main class="w-full pt-16 bg-background min-h-screen">
+
+<div class="flex flex-col w-full max-w-7xl mx-auto p-6 md:p-8 gap-8">
+<!-- 1. Header: Big clear title & subtext -->
+
+<div class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-[#E2E8F0] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+<div>
+
+<div class="flex items-center gap-2 mb-1.5">
+<span class="text-xl">🌾</span>
+<span class="text-xs font-bold uppercase tracking-wider text-primary-container bg-[#F0FDF4] px-2.5 py-0.5 rounded-full border border-green-200">Easy Grain Selling Guide</span>
+</div>
+
+<h1 class="text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight">Today's Crop Selling Prices</h1>
+<p class="text-base md:text-lg text-secondary mt-1 flex items-center gap-2">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-green-500">
+</span>
+      Updated 2 minutes ago. <span class="font-semibold text-primary">Prices are good today.</span>
+</p>
+</div>
+
+
+<div class="flex items-center gap-3">
+
+<div class="bg-[#F0FDF4] border border-[#BBF7D0] px-4 py-2.5 rounded-xl text-center">
+<span class="block text-xs uppercase font-bold text-secondary">Recommended Action</span>
+<span class="text-base font-bold text-primary-container">Hold Corn • Sell Wheat Now</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- 2. Crop Price Cards (huge, clean, easy to read at a 10-foot glance) -->
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Corn Card -->
+
+<div class="bg-surface-container-lowest rounded-2xl p-6 border-2 border-green-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+
+<div>
+
+<div class="flex items-start justify-between mb-4">
+
+<div class="flex items-center gap-3">
+
+<div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-3xl shadow-inner">
+            🌽
+          </div>
+
+
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Yellow Corn</h2>
+<span class="text-xs font-medium text-secondary">Most Common Crop</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="my-4">
+
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-black text-on-surface tracking-tight">$4.85</span>
+<span class="text-xl font-medium text-secondary">/ bushel</span>
+</div>
+
+
+<div class="mt-3 flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold bg-[#F0FDF4] text-primary-container border border-green-200">
+<span class="material-symbols-outlined text-[18px]">trending_up</span> Price is UP (+1.2%)
+          </span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="mt-4 pt-4 border-t border-[#E2E8F0] flex items-center justify-between">
+<span class="text-xs font-semibold uppercase tracking-wider text-secondary">Farmer Advice:</span>
+<span class="px-3 py-1.5 rounded-xl text-sm font-black bg-[#15803d] text-white shadow-sm tracking-wide">
+        GOOD TIME TO HOLD
+      </span>
+</div>
+
+</div>
+
+<!-- Soybeans Card -->
+
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-[#E2E8F0] shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+
+<div>
+
+<div class="flex items-start justify-between mb-4">
+
+<div class="flex items-center gap-3">
+
+<div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-3xl shadow-inner">
+            🌱
+          </div>
+
+
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Soybeans</h2>
+<span class="text-xs font-medium text-secondary">Standard Harvest</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="my-4">
+
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-black text-on-surface tracking-tight">$12.40</span>
+<span class="text-xl font-medium text-secondary">/ bushel</span>
+</div>
+
+
+<div class="mt-3 flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold bg-amber-50 text-amber-800 border border-amber-200">
+<span class="material-symbols-outlined text-[18px]">trending_down</span> Price down a little (-0.4%)
+          </span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="mt-4 pt-4 border-t border-[#E2E8F0] flex items-center justify-between">
+<span class="text-xs font-semibold uppercase tracking-wider text-secondary">Farmer Advice:</span>
+<span class="px-3 py-1.5 rounded-xl text-sm font-black bg-amber-600 text-white shadow-sm tracking-wide">
+        OK TO SELL SOME
+      </span>
+</div>
+
+</div>
+
+<!-- Wheat Card -->
+
+<div class="bg-surface-container-lowest rounded-2xl p-6 border-2 border-green-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+
+<div>
+
+<div class="flex items-start justify-between mb-4">
+
+<div class="flex items-center gap-3">
+
+<div class="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-3xl shadow-inner">
+            🌾
+          </div>
+
+
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Wheat</h2>
+<span class="text-xs font-medium text-secondary">Soft Red Winter</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="my-4">
+
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-black text-on-surface tracking-tight">$6.15</span>
+<span class="text-xl font-medium text-secondary">/ bushel</span>
+</div>
+
+
+<div class="mt-3 flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold bg-[#F0FDF4] text-primary-container border border-green-200">
+<span class="material-symbols-outlined text-[18px]">trending_up</span> Price is UP (+2.1%)
+          </span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="mt-4 pt-4 border-t border-[#E2E8F0] flex items-center justify-between">
+<span class="text-xs font-semibold uppercase tracking-wider text-secondary">Farmer Advice:</span>
+<span class="px-3 py-1.5 rounded-xl text-sm font-black bg-[#15803d] text-white shadow-sm tracking-wide">
+        GREAT PRICE TO SELL
+      </span>
+</div>
+
+</div>
+
+</section>
+
+<!-- 3. Interactive Price Movement & Trends Container -->
+
+<section class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-[#E2E8F0] shadow-sm">
+
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+
+<div>
+
+<div class="flex items-center gap-2">
+<span class="text-2xl">📈</span>
+<h3 class="text-2xl font-bold text-on-surface">Is the price going up or down? (Past 30 Days)</h3>
+</div>
+
+<p class="text-secondary text-sm md:text-base mt-1">Here is the simple 30-day story for your corn crop. No confusing financial charts.</p>
+</div>
+
+<!-- Quick Stat summary pill -->
+
+<div class="flex items-center gap-3 bg-[#F0FDF4] border border-green-200 px-4 py-2 rounded-xl self-start lg:self-auto">
+<span class="text-sm font-medium text-secondary">Last month: <strong class="text-on-surface text-base">$4.40</strong>
+</span>
+<span class="material-symbols-outlined text-primary-container font-bold text-xl">arrow_forward</span>
+<span class="text-sm font-medium text-secondary">Today: <strong class="text-primary-container text-lg font-black">$4.85</strong>
+</span>
+<span class="bg-primary-container text-white text-xs font-bold px-2 py-0.5 rounded-full ml-1">Going Up!</span>
+</div>
+
+</div>
+
+<!-- View Switcher / Segmented Toggle Bar (4 Options) -->
+
+<div class="flex items-center gap-2 p-1.5 bg-surface-container-low rounded-2xl border border-[#E2E8F0] w-full max-w-2xl mb-6 overflow-x-auto" id="chartViewSwitcher" role="tablist">
+<button aria-selected="true" class="view-btn flex-1 min-w-[130px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm bg-primary-container text-white" data-view="line" role="tab">
+<span>📈</span>
+<span>Line Chart</span>
+</button>
+<button aria-selected="false" class="view-btn flex-1 min-w-[130px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all text-secondary hover:text-on-surface hover:bg-white/80" data-view="bar" role="tab">
+<span>📊</span>
+<span>Bar Chart</span>
+</button>
+<button aria-selected="false" class="view-btn flex-1 min-w-[130px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all text-secondary hover:text-on-surface hover:bg-white/80" data-view="table" role="tab">
+<span>📋</span>
+<span>Table</span>
+</button>
+<button aria-selected="false" class="view-btn flex-1 min-w-[130px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all text-secondary hover:text-on-surface hover:bg-white/80" data-view="pie" role="tab">
+<span>🥧</span>
+<span>Pie Chart</span>
+</button>
+</div>
+
+<!-- VIEW 1: Line Chart View (Active by default) -->
+
+<div class="view-panel block" id="view-line">
+
+<div class="relative w-full h-56 bg-gradient-to-b from-[#F0FDF4]/50 to-transparent rounded-xl p-4 flex flex-col justify-end border border-green-100">
+<svg class="w-full h-40 overflow-visible" preserveaspectratio="none" viewbox="0 0 800 160">
+<defs>
+<lineargradient id="simpleGreenFill" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#15803d" stop-opacity="0.3">
+</stop>
+<stop offset="100%" stop-color="#15803d" stop-opacity="0.02">
+</stop>
+</lineargradient>
+</defs>
+<!-- Horizontal reference lines -->
+<line stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1.5" x1="0" x2="800" y1="30" y2="30">
+</line>
+<line stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1.5" x1="0" x2="800" y1="80" y2="80">
+</line>
+<line stroke="#E2E8F0" stroke-dasharray="4 4" stroke-width="1.5" x1="0" x2="800" y1="130" y2="130">
+</line>
+<!-- Smooth upward trend path -->
+<path d="M 20,135 C 180,130 260,115 400,95 C 540,75 660,50 780,25 L 780,160 L 20,160 Z" fill="url(#simpleGreenFill)">
+</path>
+<path d="M 20,135 C 180,130 260,115 400,95 C 540,75 660,50 780,25" fill="none" stroke="#15803d" stroke-linecap="round" stroke-width="5">
+</path>
+<!-- Big clear start and end dots -->
+<circle cx="20" cy="135" fill="#ffffff" r="7" stroke="#15803d" stroke-width="4">
+</circle>
+<circle class="animate-pulse" cx="780" cy="25" fill="#15803d" r="8" stroke="#ffffff" stroke-width="3">
+</circle>
+</svg>
+
+<div class="flex items-center justify-between text-sm font-semibold text-secondary pt-3 border-t border-[#E2E8F0] mt-2">
+
+<div class="flex flex-col items-start">
+<span class="text-xs uppercase text-secondary">30 Days Ago</span>
+<span class="text-base text-on-surface font-bold">$4.40 / bu</span>
+</div>
+
+
+<div class="flex items-center gap-1 text-primary-container font-bold text-sm bg-green-50 px-3 py-1 rounded-full border border-green-200">
+<span class="material-symbols-outlined text-[18px]">trending_up</span> Steady Rise: +$0.45 higher this month
+      </div>
+
+
+<div class="flex flex-col items-end">
+<span class="text-xs uppercase text-secondary">Today's Price</span>
+<span class="text-base text-primary-container font-black">$4.85 / bu</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIEW 2: Bar Chart View -->
+
+<div class="view-panel hidden" id="view-bar">
+
+<div class="bg-[#F0FDF4]/30 rounded-xl p-6 border border-green-100 flex flex-col gap-6">
+
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E2E8F0] pb-3">
+
+<div>
+<h4 class="text-lg font-bold text-on-surface">Weekly Corn Price Growth (Last 4 Weeks)</h4>
+<p class="text-xs md:text-sm text-secondary">See how your corn price steadily climbed each week toward today's high.</p>
+</div>
+
+<span class="text-xs font-bold uppercase tracking-wider text-primary-container bg-white px-3 py-1 rounded-full border border-green-200 self-start sm:self-auto">+$0.45 Total Gain</span>
+</div>
+
+<!-- Friendly Bar Visualizer -->
+
+<div class="grid grid-cols-4 gap-3 sm:gap-6 items-end pt-8 pb-3 min-h-[200px]">
+<!-- Week 1 -->
+
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-sm font-bold text-on-surface">$4.40</span>
+
+<div class="w-full max-w-[80px] bg-emerald-200 rounded-t-xl transition-all duration-300 hover:bg-emerald-300" style="height: 110px;">
+</div>
+
+<span class="text-xs font-semibold text-secondary">Week 1</span>
+<span class="text-[11px] text-secondary font-medium">30 days ago</span>
+</div>
+
+<!-- Week 2 -->
+
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-sm font-bold text-on-surface">$4.52</span>
+
+<div class="w-full max-w-[80px] bg-emerald-300 rounded-t-xl transition-all duration-300 hover:bg-emerald-400" style="height: 125px;">
+</div>
+
+<span class="text-xs font-semibold text-secondary">Week 2</span>
+<span class="text-[11px] text-secondary font-medium">21 days ago</span>
+</div>
+
+<!-- Week 3 -->
+
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-sm font-bold text-on-surface">$4.68</span>
+
+<div class="w-full max-w-[80px] bg-emerald-500 rounded-t-xl transition-all duration-300 hover:bg-emerald-600" style="height: 145px;">
+</div>
+
+<span class="text-xs font-semibold text-secondary">Week 3</span>
+<span class="text-[11px] text-secondary font-medium">14 days ago</span>
+</div>
+
+<!-- Week 4 / Today -->
+
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<span class="text-base font-extrabold text-primary-container bg-white px-2 py-0.5 rounded-lg border border-green-200 shadow-sm">$4.85</span>
+
+<div class="w-full max-w-[80px] bg-primary-container rounded-t-xl transition-all duration-300 shadow-md ring-2 ring-emerald-300" style="height: 170px;">
+</div>
+
+<span class="text-xs font-bold text-primary-container">Week 4</span>
+<span class="text-[11px] font-bold text-primary-container">Today (Peak)</span>
+</div>
+
+</div>
+
+<!-- Quick Crop Summary Pill Comparison -->
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-[#E2E8F0]">
+
+<div class="bg-white p-3 rounded-xl border border-green-100 flex items-center justify-between">
+<span class="text-xs font-semibold text-secondary">🌽 Yellow Corn</span>
+<span class="text-base font-extrabold text-on-surface">$4.85 <span class="text-xs text-green-600 font-bold">(+$0.45)</span>
+</span>
+</div>
+
+
+<div class="bg-white p-3 rounded-xl border border-green-100 flex items-center justify-between">
+<span class="text-xs font-semibold text-secondary">🌱 Soybeans</span>
+<span class="text-base font-extrabold text-on-surface">$12.40 <span class="text-xs text-amber-600 font-bold">(-$0.05)</span>
+</span>
+</div>
+
+
+<div class="bg-white p-3 rounded-xl border border-green-100 flex items-center justify-between">
+<span class="text-xs font-semibold text-secondary">🌾 Wheat</span>
+<span class="text-base font-extrabold text-on-surface">$6.15 <span class="text-xs text-green-600 font-bold">(+$0.13)</span>
+</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIEW 3: Table View -->
+
+<div class="view-panel hidden" id="view-table">
+
+<div class="overflow-x-auto rounded-xl border border-[#E2E8F0] bg-white">
+
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-[#E2E8F0] text-xs font-bold uppercase tracking-wider text-secondary">
+<th class="py-3.5 px-4">Timeline / Date</th>
+<th class="py-3.5 px-4">Crop</th>
+<th class="py-3.5 px-4">Market Price</th>
+<th class="py-3.5 px-4">Price Change</th>
+<th class="py-3.5 px-4">Farmer Advice</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#E2E8F0] text-sm font-medium text-on-surface">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 font-semibold text-on-surface">Today (Latest)</td>
+<td class="py-3.5 px-4 flex items-center gap-1.5 font-bold">
+<span>🌽</span> Yellow Corn</td>
+<td class="py-3.5 px-4 text-base font-extrabold text-primary-container">$4.85 / bu</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#F0FDF4] text-primary-container border border-green-200">+1.2% ($0.45 30-day gain)</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2.5 py-1 rounded-lg text-xs font-black bg-[#15803d] text-white">GOOD TIME TO HOLD</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 text-secondary">7 Days Ago</td>
+<td class="py-3.5 px-4 flex items-center gap-1.5 font-bold">
+<span>🌽</span> Yellow Corn</td>
+<td class="py-3.5 px-4 font-bold">$4.68 / bu</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#F0FDF4] text-primary-container border border-green-200">+0.8% rise</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2.5 py-1 rounded-lg text-xs font-bold bg-surface-container-high text-on-surface">STEADY</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 text-secondary">14 Days Ago</td>
+<td class="py-3.5 px-4 flex items-center gap-1.5 font-bold">
+<span>🌽</span> Yellow Corn</td>
+<td class="py-3.5 px-4 font-bold">$4.52 / bu</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#F0FDF4] text-primary-container border border-green-200">+0.5% rise</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2.5 py-1 rounded-lg text-xs font-bold bg-surface-container-high text-on-surface">STEADY</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-3.5 px-4 text-secondary">30 Days Ago</td>
+<td class="py-3.5 px-4 flex items-center gap-1.5 font-bold">
+<span>🌽</span> Yellow Corn</td>
+<td class="py-3.5 px-4 font-bold text-secondary">$4.40 / bu</td>
+<td class="py-3.5 px-4">
+<span class="text-xs text-secondary font-medium">Starting Baseline</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-block px-2.5 py-1 rounded-lg text-xs font-bold bg-surface-container-low text-secondary">PAST RECORD</span>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<!-- VIEW 4: Pie Chart View -->
+
+<div class="view-panel hidden" id="view-pie">
+
+<div class="bg-surface-container-low rounded-xl p-6 border border-[#E2E8F0] flex flex-col md:flex-row items-center justify-around gap-8">
+<!-- SVG Donut Chart -->
+
+<div class="relative w-56 h-56 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<!-- Background circle -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#E2E8F0" stroke-width="16">
+</circle>
+<!-- Corn Segment: 55% -> stroke-dasharray: 131.3 238.7, stroke-dashoffset: 0 -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#15803d" stroke-dasharray="131.3 238.7" stroke-dashoffset="0" stroke-width="16">
+</circle>
+<!-- Soybeans Segment: 34% -> stroke-dasharray: 81.2 238.7, stroke-dashoffset: -131.3 -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#d97706" stroke-dasharray="81.2 238.7" stroke-dashoffset="-131.3" stroke-width="16">
+</circle>
+<!-- Wheat Segment: 11% -> stroke-dasharray: 26.2 238.7, stroke-dashoffset: -212.5 -->
+<circle cx="50" cy="50" fill="transparent" r="38" stroke="#0284c7" stroke-dasharray="26.2 238.7" stroke-dashoffset="-212.5" stroke-width="16">
+</circle>
+</svg>
+<!-- Center metric inside donut -->
+
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+<span class="text-xs uppercase font-bold text-secondary tracking-wider">Total Value</span>
+<span class="text-xl font-black text-on-surface">$1.48M</span>
+<span class="text-[11px] font-semibold text-primary">In Farm Bins</span>
+</div>
+
+</div>
+
+<!-- Explanatory Legend / Breakdown -->
+
+<div class="flex flex-col gap-3.5 w-full max-w-md">
+<h4 class="text-lg font-bold text-on-surface">Farm Crop Portfolio Value Share</h4>
+<p class="text-xs md:text-sm text-secondary">Clear breakdown of where your storage value comes from right now.</p>
+<!-- Corn Legend Item -->
+
+<div class="p-3 bg-white rounded-xl border border-green-100 flex items-center justify-between shadow-sm">
+
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full bg-[#15803d] shrink-0">
+</span>
+
+<div>
+<span class="text-sm font-bold text-on-surface">Yellow Corn (55%)</span>
+<p class="text-xs text-secondary">Highest storage allocation</p>
+</div>
+
+</div>
+
+<span class="text-base font-extrabold text-primary-container">$824,000</span>
+</div>
+
+<!-- Soybeans Legend Item -->
+
+<div class="p-3 bg-white rounded-xl border border-[#E2E8F0] flex items-center justify-between shadow-sm">
+
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full bg-[#d97706] shrink-0">
+</span>
+
+<div>
+<span class="text-sm font-bold text-on-surface">Soybeans (34%)</span>
+<p class="text-xs text-secondary">High price per bushel</p>
+</div>
+
+</div>
+
+<span class="text-base font-extrabold text-amber-700">$496,000</span>
+</div>
+
+<!-- Wheat Legend Item -->
+
+<div class="p-3 bg-white rounded-xl border border-[#E2E8F0] flex items-center justify-between shadow-sm">
+
+<div class="flex items-center gap-3">
+<span class="w-4 h-4 rounded-full bg-[#0284c7] shrink-0">
+</span>
+
+<div>
+<span class="text-sm font-bold text-on-surface">Wheat (11%)</span>
+<p class="text-xs text-secondary">Ready for immediate contract</p>
+</div>
+
+</div>
+
+<span class="text-base font-extrabold text-sky-700">$162,900</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Simple Footer Summary: Estimated Grain Value in Storage -->
+
+<div class="bg-surface-container-lowest rounded-2xl p-6 border border-[#E2E8F0] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+<div class="flex items-center gap-4">
+
+<div class="w-12 h-12 rounded-2xl bg-green-50 border border-green-200 flex items-center justify-center text-2xl text-primary font-bold">
+      💰
+    </div>
+
+
+<div>
+<span class="text-xs uppercase font-bold text-secondary tracking-wider">Estimated Total Value of Your Grain Right Now</span>
+<p class="text-3xl font-extrabold text-on-surface">$1,482,900</p>
+</div>
+
+</div>
+
+
+<div class="text-secondary text-sm md:text-right">
+<span>Calculated from your farm bins (Corn: $824k • Soy: $496k • Wheat: $162k)</span>
+<p class="text-xs text-primary font-semibold mt-0.5">Need help hauling? Call dispatch: (555) 019-4829</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+  (function initSimpleMarketView() {
+    // Refresh button feedback
+    const refreshBtn = document.getElementById('refreshFeedBtn');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        const icon = refreshBtn.querySelector('.material-symbols-outlined');
+        if (icon) {
+          icon.classList.add('animate-spin');
+          setTimeout(() => {
+            icon.classList.remove('animate-spin');
+          }, 600);
+        }
+      });
+    }
+
+    // Interactive View Switcher for Price Movement Container
+    const switcher = document.getElementById('chartViewSwitcher');
+    if (switcher) {
+      const buttons = switcher.querySelectorAll('.view-btn');
+      const panels = {
+        line: document.getElementById('view-line'),
+        bar: document.getElementById('view-bar'),
+        table: document.getElementById('view-table'),
+        pie: document.getElementById('view-pie')
+      };
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetView = btn.getAttribute('data-view');
+          
+          // Update button styles
+          buttons.forEach(b => {
+            b.classList.remove('bg-primary-container', 'text-white', 'shadow-sm', 'font-bold');
+            b.classList.add('text-secondary', 'font-semibold');
+            b.setAttribute('aria-selected', 'false');
+          });
+
+          btn.classList.add('bg-primary-container', 'text-white', 'shadow-sm', 'font-bold');
+          btn.classList.remove('text-secondary', 'font-semibold');
+          btn.setAttribute('aria-selected', 'true');
+
+          // Switch panel visibility
+          Object.keys(panels).forEach(key => {
+            if (panels[key]) {
+              if (key === targetView) {
+                panels[key].classList.remove('hidden');
+                panels[key].classList.add('block');
+              } else {
+                panels[key].classList.add('hidden');
+                panels[key].classList.remove('block');
+              }
+            }
+          });
+        });
+      });
+    }
+  })();
+</script>
+</main>
+</div>
+
+</body>
+</html>
